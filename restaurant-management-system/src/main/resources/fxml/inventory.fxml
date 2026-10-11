@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.InventoryController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="15.0">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Kitchen Inventory &amp; Raw Stock" styleClass="page-title" />
+                  <Label text="Track ingredient balances, cost per unit, supplier mapping and low stock alerts" styleClass="page-subtitle" />
+               </children>
+            </VBox>
+            <Button onAction="#handleShowLowStockOnly" text="⚠️ Low Stock Alert" styleClass="btn-danger" />
+            <Button onAction="#handleShowAllSorted" text="Sort by Stock Asc ⇅" styleClass="btn-secondary" />
+         </children>
+      </HBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Inventory Items Table -->
+         <TableView fx:id="inventoryTable" HBox.hgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="colId" prefWidth="40.0" text="ID" />
+               <TableColumn fx:id="colName" prefWidth="180.0" text="Ingredient" />
+               <TableColumn fx:id="colCategory" prefWidth="100.0" text="Category" />
+               <TableColumn fx:id="colQty" prefWidth="80.0" text="Stock" />
+               <TableColumn fx:id="colUnit" prefWidth="60.0" text="Unit" />
+               <TableColumn fx:id="colMinStock" prefWidth="80.0" text="Min Stock" />
+               <TableColumn fx:id="colUnitCost" prefWidth="90.0" text="Cost (₹)" />
+               <TableColumn fx:id="colSupplier" prefWidth="150.0" text="Supplier" />
+            </columns>
+         </TableView>
+
+         <!-- Inventory Item Form -->
+         <VBox prefWidth="320.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="Ingredient Master" styleClass="form-title" />
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Ingredient Name *" styleClass="form-label" />
+                     <TextField fx:id="nameField" promptText="e.g. Fresh Paneer / Chicken" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Category" styleClass="form-label" />
+                     <TextField fx:id="categoryField" promptText="Dairy / Meat / Vegetables" />
+                  </children>
+               </VBox>
+               <HBox spacing="10.0">
+                  <children>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Current Stock *" styleClass="form-label" />
+                           <TextField fx:id="quantityField" promptText="25.0" />
+                        </children>
+                     </VBox>
+                     <VBox spacing="4.0" prefWidth="100.0">
+                        <children>
+                           <Label text="Unit *" styleClass="form-label" />
+                           <TextField fx:id="unitField" promptText="kg / ltr" />
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <HBox spacing="10.0">
+                  <children>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Min. Safe Stock *" styleClass="form-label" />
+                           <TextField fx:id="minStockField" promptText="5.0" />
+                        </children>
+                     </VBox>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Cost/Unit (₹)" styleClass="form-label" />
+                           <TextField fx:id="unitCostField" promptText="320.00" />
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Primary Supplier" styleClass="form-label" />
+                     <ComboBox fx:id="supplierCombo" maxWidth="Infinity" />
+                  </children>
+               </VBox>
+
+               <HBox spacing="10.0" alignment="CENTER_LEFT" style="-fx-padding: 8px 0 0 0;">
+                  <children>
+                     <TextField fx:id="adjustQtyField" promptText="+/- Quick Add/Deduct" HBox.hgrow="ALWAYS" />
+                     <Button onAction="#handleQuickStockAdjust" text="Adjust Stock" styleClass="btn-secondary" />
+                  </children>
+               </HBox>
+
+               <HBox spacing="10.0" style="-fx-padding: 6px 0 0 0;">
+                  <children>
+                     <Button onAction="#handleAddItem" text="Add Item" styleClass="btn-success" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#handleUpdateItem" text="Update" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+               <HBox spacing="10.0">
+                  <children>
+                     <Button onAction="#handleDeleteItem" text="Delete" styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#clearForm" text="Clear" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>

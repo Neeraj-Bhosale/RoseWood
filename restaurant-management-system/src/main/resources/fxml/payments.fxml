@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.PaymentController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label text="Cashier Payment &amp; Settlement Terminal" styleClass="page-title" />
+            <Label text="Process customer payments across Cash, UPI, and Credit/Debit Cards" styleClass="page-subtitle" />
+         </children>
+      </VBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Left: Unsettled Orders -->
+         <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <children>
+               <Label text="Orders Pending Settlement" styleClass="form-title" />
+               <TableView fx:id="unpaidOrdersTable" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="colOrderNumber" prefWidth="130.0" text="Order #" />
+                     <TableColumn fx:id="colTable" prefWidth="80.0" text="Table" />
+                     <TableColumn fx:id="colCustomer" prefWidth="130.0" text="Customer" />
+                     <TableColumn fx:id="colTotal" prefWidth="110.0" text="Due Amount (₹)" />
+                  </columns>
+               </TableView>
+            </children>
+         </VBox>
+
+         <!-- Right: Polymorphic Payment Processing Form -->
+         <VBox prefWidth="420.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="Transaction Settlement" styleClass="form-title" />
+
+               <HBox><Label text="Order: " styleClass="form-label"/><Label fx:id="selectedOrderLabel" text="None" style="-fx-text-fill: #38bdf8; -fx-font-weight: bold;"/></HBox>
+               <HBox><Label text="Amount Due: " styleClass="form-label"/><Label fx:id="amountDueLabel" text="₹ 0.00" style="-fx-text-fill: #10b981; -fx-font-size: 16px; -fx-font-weight: bold;"/></HBox>
+
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Payment Method *" styleClass="form-label" />
+                     <ComboBox fx:id="paymentMethodCombo" maxWidth="Infinity" />
+                  </children>
+               </VBox>
+
+               <!-- Polymorphic Panel 1: CASH -->
+               <VBox fx:id="cashPanel" spacing="8.0">
+                  <children>
+                     <Label text="Cash Tendered (₹) *" styleClass="form-label" />
+                     <TextField fx:id="cashTenderedField" promptText="Amount received" />
+                  </children>
+               </VBox>
+
+               <!-- Polymorphic Panel 2: UPI -->
+               <VBox fx:id="upiPanel" spacing="8.0" visible="false" managed="false">
+                  <children>
+                     <Label text="Customer UPI VPA ID *" styleClass="form-label" />
+                     <TextField fx:id="upiIdField" promptText="e.g. user@oksbi / name@paytm" />
+                     <Label text="UPI Transaction Reference / UTR" styleClass="form-label" />
+                     <TextField fx:id="upiTxnRefField" promptText="e.g. 429182749102" />
+                  </children>
+               </VBox>
+
+               <!-- Polymorphic Panel 3: CARD -->
+               <VBox fx:id="cardPanel" spacing="8.0" visible="false" managed="false">
+                  <children>
+                     <Label text="Card Last 4 Digits *" styleClass="form-label" />
+                     <TextField fx:id="cardLastFourField" promptText="e.g. 4482" />
+                     <Label text="POS Authorization / Approval Code *" styleClass="form-label" />
+                     <TextField fx:id="cardAuthCodeField" promptText="e.g. AUTH-88219" />
+                  </children>
+               </VBox>
+
+               <Button onAction="#handleProcessPayment" text="✅ Process &amp; Settle Payment" maxWidth="Infinity" prefHeight="40.0" styleClass="btn-success" />
+
+               <Label text="Generated Transaction Receipt:" styleClass="form-label" />
+               <TextArea fx:id="receiptOutputArea" prefRowCount="7" editable="false" styleClass="bill-preview-box" />
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.TableController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="15.0">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Restaurant Tables &amp; Floor Layout" styleClass="page-title" />
+                  <Label text="Manage floor tables, capacities, and real-time status" styleClass="page-subtitle" />
+               </children>
+            </VBox>
+            <Button onAction="#handleSetAvailable" text="Mark Available" styleClass="btn-success" />
+            <Button onAction="#handleSetCleaning" text="Mark Cleaning" styleClass="btn-primary" />
+         </children>
+      </HBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Table List -->
+         <TableView fx:id="tableTable" HBox.hgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
+               <TableColumn fx:id="colNumber" prefWidth="120.0" text="Table No." />
+               <TableColumn fx:id="colCapacity" prefWidth="90.0" text="Capacity" />
+               <TableColumn fx:id="colLocation" prefWidth="180.0" text="Floor Location" />
+               <TableColumn fx:id="colStatus" prefWidth="130.0" text="Status" />
+            </columns>
+         </TableView>
+
+         <!-- Table Form -->
+         <VBox prefWidth="300.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="Table Information" styleClass="form-title" />
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Table Number *" styleClass="form-label" />
+                     <TextField fx:id="tableNumberField" promptText="e.g. T-11" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Seating Capacity *" styleClass="form-label" />
+                     <TextField fx:id="capacityField" promptText="e.g. 4" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Floor Section / Location" styleClass="form-label" />
+                     <TextField fx:id="locationField" promptText="e.g. Central Hall / Window" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Table Status" styleClass="form-label" />
+                     <ComboBox fx:id="statusComboBox" maxWidth="Infinity" />
+                  </children>
+               </VBox>
+               <HBox spacing="10.0" style="-fx-padding: 10px 0 0 0;">
+                  <children>
+                     <Button onAction="#handleAddTable" text="Add Table" styleClass="btn-success" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#handleUpdateTable" text="Update" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+               <HBox spacing="10.0">
+                  <children>
+                     <Button onAction="#handleDeleteTable" text="Delete" styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#clearForm" text="Clear" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>

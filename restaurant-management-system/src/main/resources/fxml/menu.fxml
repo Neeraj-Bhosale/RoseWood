@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.MenuController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="15.0">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Menu Catalog Management" styleClass="page-title" />
+                  <Label text="Manage restaurant categories, prices, preparation time &amp; availability" styleClass="page-subtitle" />
+               </children>
+            </VBox>
+            <ComboBox fx:id="filterCategoryBox" prefWidth="180.0" onAction="#handleSearch" />
+            <TextField fx:id="searchField" promptText="Search menu items..." onKeyReleased="#handleSearch" prefWidth="200.0" />
+            <Button onAction="#handleSortByPrice" text="Sort by Price ⇅" styleClass="btn-secondary" />
+         </children>
+      </HBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Menu Items Table -->
+         <TableView fx:id="menuTable" HBox.hgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="colId" prefWidth="40.0" text="ID" />
+               <TableColumn fx:id="colCategory" prefWidth="160.0" text="Category" />
+               <TableColumn fx:id="colName" prefWidth="220.0" text="Item Name" />
+               <TableColumn fx:id="colPrice" prefWidth="100.0" text="Price (₹)" />
+               <TableColumn fx:id="colPrepTime" prefWidth="90.0" text="Prep (min)" />
+               <TableColumn fx:id="colAvailable" prefWidth="80.0" text="Available" />
+            </columns>
+         </TableView>
+
+         <!-- Menu Item Form -->
+         <VBox prefWidth="320.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="Dish Details" styleClass="form-title" />
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Category *" styleClass="form-label" />
+                     <ComboBox fx:id="categoryComboBox" maxWidth="Infinity" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Item Name *" styleClass="form-label" />
+                     <TextField fx:id="nameField" promptText="e.g. Paneer Butter Masala" />
+                  </children>
+               </VBox>
+               <HBox spacing="10.0">
+                  <children>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Price (₹) *" styleClass="form-label" />
+                           <TextField fx:id="priceField" promptText="350.00" />
+                        </children>
+                     </VBox>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Prep (min)" styleClass="form-label" />
+                           <TextField fx:id="prepTimeField" promptText="15" />
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Description" styleClass="form-label" />
+                     <TextArea fx:id="descriptionArea" prefRowCount="3" promptText="Ingredients, culinary style, allergy notes" />
+                  </children>
+               </VBox>
+               <CheckBox fx:id="availableCheckBox" text="Item is currently Available in Kitchen" selected="true" style="-fx-text-fill: #cbd5e1;" />
+
+               <HBox spacing="10.0" style="-fx-padding: 10px 0 0 0;">
+                  <children>
+                     <Button onAction="#handleAddItem" text="Add Item" styleClass="btn-success" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#handleUpdateItem" text="Update" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+               <HBox spacing="10.0">
+                  <children>
+                     <Button onAction="#handleDeleteItem" text="Delete" styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#clearForm" text="Clear" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>

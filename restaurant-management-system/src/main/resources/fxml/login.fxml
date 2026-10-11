@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.LoginController" styleClass="main-window">
+   <children>
+      <!-- Left Hero Banner -->
+      <VBox alignment="CENTER_LEFT" prefHeight="600.0" prefWidth="420.0" spacing="20.0" style="-fx-background-color: #0b1329; -fx-padding: 40px; -fx-border-color: #1e293b; -fx-border-width: 0 1px 0 0;">
+         <children>
+            <Label text="🍽️ ROSEWOOD" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #38bdf8;" />
+            <Label text="Enterprise Restaurant Management System" style="-fx-font-size: 14px; -fx-text-fill: #94a3b8;" wrapText="true" />
+            <Separator style="-fx-background-color: #334155;" />
+            
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Demo Role Accounts (Click to autofill):" style="-fx-text-fill: #cbd5e1; -fx-font-weight: bold;" />
+                  <Button onAction="#fillAdminDemo" text="👑 Admin (Full Access)" maxWidth="Infinity" styleClass="btn-secondary" />
+                  <Button onAction="#fillWaiterDemo" text="🧑‍🍳 Waiter (Orders &amp; Floor)" maxWidth="Infinity" styleClass="btn-secondary" />
+                  <Button onAction="#fillCashierDemo" text="💳 Cashier (Billing &amp; Payments)" maxWidth="Infinity" styleClass="btn-secondary" />
+                  <Button onAction="#fillChefDemo" text="🔥 Kitchen Chef (KDS System)" maxWidth="Infinity" styleClass="btn-secondary" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+
+      <!-- Right Login Card -->
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="480.0" spacing="20.0" style="-fx-padding: 50px;">
+         <children>
+            <VBox spacing="6.0">
+               <children>
+                  <Label text="Welcome Back" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ffffff;" />
+                  <Label text="Please log in to your staff portal account" style="-fx-text-fill: #94a3b8;" />
+               </children>
+            </VBox>
+
+            <Label fx:id="errorLabel" style="-fx-text-fill: #ef4444; -fx-font-weight: bold;" />
+
+            <VBox spacing="8.0">
+               <children>
+                  <Label text="Username" styleClass="form-label" />
+                  <TextField fx:id="usernameField" promptText="Enter username (e.g. admin)" prefHeight="40.0" />
+               </children>
+            </VBox>
+
+            <VBox spacing="8.0">
+               <children>
+                  <Label text="Password" styleClass="form-label" />
+                  <PasswordField fx:id="passwordField" promptText="Enter password (e.g. admin123)" prefHeight="40.0" onAction="#handleLogin" />
+               </children>
+            </VBox>
+
+            <Button onAction="#handleLogin" text="Sign In to System" maxWidth="Infinity" prefHeight="42.0" styleClass="btn-primary" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

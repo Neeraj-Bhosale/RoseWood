@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.DashboardHomeController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="15.0">
+         <children>
+            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Executive Overview" styleClass="page-title" />
+                  <Label text="Real-time operational restaurant metrics" styleClass="page-subtitle" />
+               </children>
+            </VBox>
+            <Button onAction="#loadMetrics" text="🔄 Refresh Stats" styleClass="btn-secondary" />
+         </children>
+      </HBox>
+
+      <!-- Stat Cards Grid -->
+      <GridPane hgap="15.0" vgap="15.0">
+         <columnConstraints>
+            <ColumnConstraints percentWidth="33.3" />
+            <ColumnConstraints percentWidth="33.3" />
+            <ColumnConstraints percentWidth="33.4" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="110.0" />
+            <RowConstraints minHeight="110.0" />
+         </rowConstraints>
+         <children>
+            <!-- Card 1: Today's Revenue -->
+            <VBox styleClass="stat-card, card-green" GridPane.columnIndex="0" GridPane.rowIndex="0" spacing="8.0">
+               <children>
+                  <Label text="TODAY'S REVENUE" styleClass="stat-title" />
+                  <Label fx:id="statRevenueLabel" text="₹ 2,602.75" styleClass="stat-value" />
+                  <Label text="✓ Real-time settled payments" style="-fx-text-fill: #10b981; -fx-font-size: 11px;" />
+               </children>
+            </VBox>
+
+            <!-- Card 2: Today's Orders -->
+            <VBox styleClass="stat-card, card-blue" GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="8.0">
+               <children>
+                  <Label text="TOTAL ORDERS TODAY" styleClass="stat-title" />
+                  <Label fx:id="statOrdersLabel" text="2" styleClass="stat-value" />
+                  <Label text="Active and completed" style="-fx-text-fill: #3b82f6; -fx-font-size: 11px;" />
+               </children>
+            </VBox>
+
+            <!-- Card 3: Tables Availability -->
+            <VBox styleClass="stat-card, card-orange" GridPane.columnIndex="2" GridPane.rowIndex="0" spacing="8.0">
+               <children>
+                  <Label text="FLOOR OCCUPANCY" styleClass="stat-title" />
+                  <Label fx:id="statTablesLabel" text="8 Free / 2 Busy" styleClass="stat-value" />
+                  <Label text="Total 10 Tables Configured" style="-fx-text-fill: #f59e0b; -fx-font-size: 11px;" />
+               </children>
+            </VBox>
+
+            <!-- Card 4: Kitchen Backlog -->
+            <VBox styleClass="stat-card, card-red" GridPane.columnIndex="0" GridPane.rowIndex="1" spacing="8.0">
+               <children>
+                  <Label text="PENDING KITCHEN ORDERS" styleClass="stat-title" />
+                  <Label fx:id="statKitchenLabel" text="0" styleClass="stat-value" />
+                  <Label text="Tickets in Priority Queue" style="-fx-text-fill: #ef4444; -fx-font-size: 11px;" />
+               </children>
+            </VBox>
+
+            <!-- Card 5: Low Stock Warning -->
+            <VBox styleClass="stat-card, card-orange" GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="8.0">
+               <children>
+                  <Label text="LOW-STOCK ALERTS" styleClass="stat-title" />
+                  <Label fx:id="statLowStockLabel" text="1 Item" styleClass="stat-value" />
+                  <Label text="Below safety stock threshold" style="-fx-text-fill: #f59e0b; -fx-font-size: 11px;" />
+               </children>
+            </VBox>
+
+            <!-- Card 6: Quick Action Guide -->
+            <VBox styleClass="stat-card, card-blue" GridPane.columnIndex="2" GridPane.rowIndex="1" spacing="8.0">
+               <children>
+                  <Label text="QUICK ACTIONS" styleClass="stat-title" />
+                  <HBox spacing="8.0">
+                     <children>
+                        <Button onAction="#handleNewOrder" text="+ New Order" styleClass="btn-primary" />
+                        <Button onAction="#handleKitchen" text="Kitchen KDS" styleClass="btn-secondary" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </children>
+</VBox>

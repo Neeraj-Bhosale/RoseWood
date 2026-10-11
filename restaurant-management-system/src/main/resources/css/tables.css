@@ -1,0 +1,66 @@
+/* ==========================================================
+   TABLE FLOOR PLAN & VISUAL BADGES CSS
+   ========================================================== */
+
+.table-node {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #475569;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 15px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+}
+
+.table-node:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(59, 130, 246, 0.4), 10, 0, 0, 0);
+}
+
+.table-status-available {
+    -fx-border-color: #10b981;
+    -fx-background-color: rgba(16, 185, 129, 0.1);
+}
+
+.table-status-occupied {
+    -fx-border-color: #ef4444;
+    -fx-background-color: rgba(239, 68, 68, 0.1);
+}
+
+.table-status-reserved {
+    -fx-border-color: #f59e0b;
+    -fx-background-color: rgba(245, 158, 11, 0.1);
+}
+
+.table-status-cleaning {
+    -fx-border-color: #3b82f6;
+    -fx-background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Badges */
+.badge {
+    -fx-padding: 4px 8px;
+    -fx-background-radius: 4px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-green {
+    -fx-background-color: rgba(16, 185, 129, 0.2);
+    -fx-text-fill: #34d399;
+}
+
+.badge-red {
+    -fx-background-color: rgba(239, 68, 68, 0.2);
+    -fx-text-fill: #f87171;
+}
+
+.badge-yellow {
+    -fx-background-color: rgba(245, 158, 11, 0.2);
+    -fx-text-fill: #fbbf24;
+}
+
+.badge-blue {
+    -fx-background-color: rgba(59, 130, 246, 0.2);
+    -fx-text-fill: #60a5fa;
+}

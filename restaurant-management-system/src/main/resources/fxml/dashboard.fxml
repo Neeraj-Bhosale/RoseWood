@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.DashboardController" styleClass="main-window">
+   <!-- Left Sidebar Navigation -->
+   <left>
+      <VBox prefWidth="240.0" spacing="8.0" styleClass="sidebar">
+         <children>
+            <VBox spacing="4.0" styleClass="sidebar-brand">
+               <children>
+                  <Label text="🍽️ ROSEWOOD" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #38bdf8;" />
+                  <Label text="MANAGEMENT SYSTEM" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8; -fx-font-weight: bold;" />
+               </children>
+            </VBox>
+
+            <Separator style="-fx-background-color: #334155;" />
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent; -fx-padding: 0;">
+               <content>
+                  <VBox spacing="6.0" style="-fx-background-color: transparent;">
+                     <children>
+                        <Button fx:id="btnDashboard" onAction="#showDashboard" text="📊  Dashboard" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnOrders" onAction="#showOrders" text="📝  Orders &amp; POS" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnKitchen" onAction="#showKitchen" text="👨‍🍳  Kitchen (KDS)" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnTables" onAction="#showTables" text="🪑  Tables &amp; Floor" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnMenu" onAction="#showMenu" text="📖  Menu Catalog" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnCustomers" onAction="#showCustomers" text="👥  Customers &amp; Loyalty" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnReservations" onAction="#showReservations" text="📅  Reservations" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnInventory" onAction="#showInventory" text="📦  Inventory &amp; Stock" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnSuppliers" onAction="#showSuppliers" text="🚚  Suppliers" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnBilling" onAction="#showBilling" text="🧾  Billing &amp; Invoices" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnPayments" onAction="#showPayments" text="💳  Payment Terminal" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnReports" onAction="#showReports" text="📈  Reports &amp; Analytics" maxWidth="Infinity" styleClass="nav-button" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+
+            <Separator style="-fx-background-color: #334155;" />
+
+            <!-- User Info and Logout -->
+            <VBox spacing="8.0" style="-fx-padding: 10px 0;">
+               <children>
+                  <Label fx:id="userGreetingLabel" text="Logged In" style="-fx-text-fill: #f8fafc; -fx-font-weight: bold;" />
+                  <Label fx:id="userRoleBadge" text="ROLE" styleClass="badge, badge-blue" />
+                  <Button onAction="#handleLogout" text="🚪  Sign Out" maxWidth="Infinity" styleClass="logout-button" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </left>
+
+   <!-- Center Dynamic Content Area -->
+   <center>
+      <StackPane fx:id="contentArea" style="-fx-padding: 20px;">
+         <children>
+            <!-- Default Embedded Dashboard View -->
+            <fx:include source="dashboard_home.fxml" />
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

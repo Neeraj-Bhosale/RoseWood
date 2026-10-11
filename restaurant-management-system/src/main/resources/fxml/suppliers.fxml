@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.SupplierController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label text="Vendor &amp; Supplier Management" styleClass="page-title" />
+            <Label text="Maintain raw ingredient purveyors, trade contacts, and product categories" styleClass="page-subtitle" />
+         </children>
+      </VBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Suppliers Table -->
+         <TableView fx:id="supplierTable" HBox.hgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="colId" prefWidth="40.0" text="ID" />
+               <TableColumn fx:id="colName" prefWidth="180.0" text="Company Name" />
+               <TableColumn fx:id="colContact" prefWidth="130.0" text="Contact Person" />
+               <TableColumn fx:id="colPhone" prefWidth="120.0" text="Phone" />
+               <TableColumn fx:id="colEmail" prefWidth="160.0" text="Email" />
+               <TableColumn fx:id="colCategory" prefWidth="160.0" text="Supplied Items" />
+            </columns>
+         </TableView>
+
+         <!-- Supplier Form -->
+         <VBox prefWidth="320.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="Supplier Profile" styleClass="form-title" />
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Company Name *" styleClass="form-label" />
+                     <TextField fx:id="nameField" promptText="e.g. FarmFresh Organics" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Contact Person" styleClass="form-label" />
+                     <TextField fx:id="contactField" promptText="e.g. Suresh Reddy" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Phone Number *" styleClass="form-label" />
+                     <TextField fx:id="phoneField" promptText="+91 97111 00001" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Email" styleClass="form-label" />
+                     <TextField fx:id="emailField" promptText="orders@supplier.com" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Supplied Category" styleClass="form-label" />
+                     <TextField fx:id="categoryField" promptText="Dairy / Poultry / Spices" />
+                  </children>
+               </VBox>
+               <VBox spacing="4.0">
+                  <children>
+                     <Label text="Warehouse Address" styleClass="form-label" />
+                     <TextField fx:id="addressField" promptText="City / Market Yard" />
+                  </children>
+               </VBox>
+               <HBox spacing="10.0" style="-fx-padding: 8px 0 0 0;">
+                  <children>
+                     <Button onAction="#handleAddSupplier" text="Add Supplier" styleClass="btn-success" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#handleUpdateSupplier" text="Update" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+               <HBox spacing="10.0">
+                  <children>
+                     <Button onAction="#handleDeleteSupplier" text="Delete" styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     <Button onAction="#clearForm" text="Clear" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>

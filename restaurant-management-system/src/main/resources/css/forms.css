@@ -1,0 +1,36 @@
+/* ==========================================================
+   FORMS, DIALOGS & ACTION PANELS CSS
+   ========================================================== */
+
+.form-panel {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #334155;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 20px;
+}
+
+.form-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #cbd5e1;
+    -fx-padding: 0 0 4px 0;
+}
+
+.form-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8fafc;
+    -fx-padding: 0 0 10px 0;
+    -fx-border-color: #334155;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.bill-preview-box {
+    -fx-font-family: 'Consolas', 'Courier New', monospace;
+    -fx-background-color: #020617;
+    -fx-text-fill: #38bdf8;
+    -fx-border-color: #334155;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 15px;
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.KitchenController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="15.0">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Kitchen Display System (KDS)" styleClass="page-title" />
+                  <Label text="Live priority preparation queue &amp; ticket fulfillment workflow" styleClass="page-subtitle" />
+               </children>
+            </VBox>
+            <Button onAction="#loadKitchenOrders" text="🔄 Refresh KDS" styleClass="btn-secondary" />
+         </children>
+      </HBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Left: Active Kitchen Tickets Table -->
+         <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <children>
+               <Label text="Active Kitchen Queue" styleClass="form-title" />
+               <TableView fx:id="kitchenOrdersTable" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="colOrderId" prefWidth="50.0" text="ID" />
+                     <TableColumn fx:id="colTable" prefWidth="80.0" text="Table" />
+                     <TableColumn fx:id="colOrderNumber" prefWidth="130.0" text="Order #" />
+                     <TableColumn fx:id="colStatus" prefWidth="110.0" text="Status" />
+                     <TableColumn fx:id="colTime" prefWidth="140.0" text="Order Time" />
+                  </columns>
+               </TableView>
+            </children>
+         </VBox>
+
+         <!-- Right: Ticket Details and Actions -->
+         <VBox prefWidth="380.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="Ticket Dishes to Cook" styleClass="form-title" />
+               <ListView fx:id="orderItemsListView" prefHeight="220.0" style="-fx-background-color: #0f172a;" />
+
+               <Label text="Chef Special Instructions:" styleClass="form-label" />
+               <TextArea fx:id="notesArea" editable="false" prefRowCount="3" wrapText="true" />
+
+               <Separator style="-fx-background-color: #334155;" />
+
+               <Label text="Workflow Status Transition:" styleClass="form-label" />
+               <VBox spacing="8.0">
+                  <children>
+                     <Button fx:id="btnStartPreparing" onAction="#handleStartPreparing" text="🔥 1. Start Preparing (PREPARING)" maxWidth="Infinity" styleClass="btn-primary" />
+                     <Button fx:id="btnMarkReady" onAction="#handleMarkReady" text="🔔 2. Mark Ready for Service (READY)" maxWidth="Infinity" styleClass="btn-success" />
+                     <Button fx:id="btnMarkServed" onAction="#handleMarkServed" text="🍽️ 3. Mark Served to Table (SERVED)" maxWidth="Infinity" styleClass="btn-secondary" />
+                  </children>
+               </VBox>
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.CustomerController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="15.0">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Customer Directory &amp; Loyalty" styleClass="page-title" />
+                  <Label text="Manage client history, points, and contact profiles" styleClass="page-subtitle" />
+               </children>
+            </VBox>
+            <TextField fx:id="searchField" promptText="Search name or phone..." onKeyReleased="#handleSearch" prefWidth="250.0" />
+         </children>
+      </HBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <children>
+            <!-- Table View -->
+            <TableView fx:id="customerTable" HBox.hgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
+                  <TableColumn fx:id="colName" prefWidth="180.0" text="Customer Name" />
+                  <TableColumn fx:id="colPhone" prefWidth="130.0" text="Phone Number" />
+                  <TableColumn fx:id="colEmail" prefWidth="180.0" text="Email" />
+                  <TableColumn fx:id="colPoints" prefWidth="90.0" text="Loyalty Pts" />
+                  <TableColumn fx:id="colSpent" prefWidth="120.0" text="Total Spent (₹)" />
+               </columns>
+            </TableView>
+
+            <!-- Form Panel -->
+            <VBox prefWidth="320.0" spacing="12.0" styleClass="form-panel">
+               <children>
+                  <Label text="Customer Profile" styleClass="form-title" />
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label text="Full Name *" styleClass="form-label" />
+                        <TextField fx:id="nameField" promptText="e.g. Rahul Sharma" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label text="Phone Number *" styleClass="form-label" />
+                        <TextField fx:id="phoneField" promptText="+91 98765 43210" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label text="Email Address" styleClass="form-label" />
+                        <TextField fx:id="emailField" promptText="customer@domain.com" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label text="Address" styleClass="form-label" />
+                        <TextField fx:id="addressField" promptText="Street address / locality" />
+                     </children>
+                  </VBox>
+                  <HBox spacing="10.0" style="-fx-padding: 10px 0 0 0;">
+                     <children>
+                        <Button onAction="#handleAddCustomer" text="Add New" styleClass="btn-success" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Button onAction="#handleUpdateCustomer" text="Update" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Button onAction="#handleDeleteCustomer" text="Delete" styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Button onAction="#clearForm" text="Clear" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

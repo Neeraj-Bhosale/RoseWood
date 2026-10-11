@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.BillingController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label text="Billing &amp; Invoice Generation" styleClass="page-title" />
+            <Label text="Calculate customer bills, apply special discounts, and prepare receipts for settlement" styleClass="page-subtitle" />
+         </children>
+      </VBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Left Side: Unbilled/Served Orders -->
+         <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <children>
+               <Label text="Select Served Table / Order" styleClass="form-title" />
+               <TableView fx:id="readyOrdersTable" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="colOrderNumber" prefWidth="130.0" text="Order #" />
+                     <TableColumn fx:id="colTable" prefWidth="80.0" text="Table" />
+                     <TableColumn fx:id="colCustomer" prefWidth="130.0" text="Customer" />
+                     <TableColumn fx:id="colStatus" prefWidth="110.0" text="Status" />
+                     <TableColumn fx:id="colAmount" prefWidth="100.0" text="Amount (₹)" />
+                  </columns>
+               </TableView>
+            </children>
+         </VBox>
+
+         <!-- Right Side: Invoice Calculation & Receipt Preview -->
+         <VBox prefWidth="420.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="Bill Computation &amp; Adjustments" styleClass="form-title" />
+               
+               <HBox spacing="10.0" alignment="CENTER_LEFT">
+                  <children>
+                     <Label text="Discount (₹):" styleClass="form-label" />
+                     <TextField fx:id="discountField" promptText="e.g. 50.00" HBox.hgrow="ALWAYS" />
+                     <Button onAction="#handleApplyDiscount" text="Apply" styleClass="btn-secondary" />
+                  </children>
+               </HBox>
+
+               <!-- Summary Box -->
+               <VBox spacing="4.0" style="-fx-background-color: #0f172a; -fx-padding: 10px; -fx-background-radius: 6px;">
+                  <children>
+                     <HBox><Label text="Subtotal:" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblSubtotal" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <HBox><Label text="Discount:" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblDiscount" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <HBox><Label text="GST (5%):" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblTax" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <HBox><Label text="Service Charge (2.5%):" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblService" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <Separator style="-fx-background-color: #334155;" />
+                     <HBox><Label text="Final Payable:" style="-fx-font-weight: bold; -fx-text-fill: #10b981;" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblTotal" text="₹ 0.00" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #10b981;"/></HBox>
+                  </children>
+               </VBox>
+
+               <Label text="Printable Receipt Preview:" styleClass="form-label" />
+               <TextArea fx:id="receiptPreviewArea" prefRowCount="10" editable="false" styleClass="bill-preview-box" />
+
+               <Button onAction="#handlePrintBill" text="🖨️ Confirm &amp; Print Bill Invoice" maxWidth="Infinity" prefHeight="38.0" styleClass="btn-primary" />
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>

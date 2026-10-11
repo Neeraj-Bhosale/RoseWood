@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.OrderController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label text="Point of Sale (POS) — Order Taking" styleClass="page-title" />
+            <Label text="Select table, build cart items, and dispatch instantly to Kitchen Display System" styleClass="page-subtitle" />
+         </children>
+      </VBox>
+
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <!-- Left Side: Order Builder -->
+         <VBox prefWidth="550.0" spacing="12.0" styleClass="form-panel">
+            <children>
+               <Label text="1. Seating &amp; Guest Selection" styleClass="form-title" />
+               <HBox spacing="10.0">
+                  <children>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Table" styleClass="form-label" />
+                           <ComboBox fx:id="tableComboBox" promptText="Select Table..." maxWidth="Infinity" />
+                        </children>
+                     </VBox>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Customer (Optional)" styleClass="form-label" />
+                           <ComboBox fx:id="customerComboBox" promptText="Select / Walk-in..." maxWidth="Infinity" />
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+
+               <Label text="2. Add Menu Dishes" styleClass="form-title" style="-fx-padding: 10px 0 0 0;" />
+               <HBox spacing="10.0" alignment="BOTTOM_LEFT">
+                  <children>
+                     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label text="Menu Item" styleClass="form-label" />
+                           <ComboBox fx:id="menuItemComboBox" promptText="Choose item..." maxWidth="Infinity" />
+                        </children>
+                     </VBox>
+                     <VBox spacing="4.0" prefWidth="80.0">
+                        <children>
+                           <Label text="Qty" styleClass="form-label" />
+                           <Spinner fx:id="quantitySpinner" maxWidth="Infinity" />
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+
+               <HBox spacing="10.0" alignment="CENTER_LEFT">
+                  <children>
+                     <TextField fx:id="itemInstructionsField" promptText="Special note (e.g. Less spicy, Extra sauce)" HBox.hgrow="ALWAYS" />
+                     <Button onAction="#handleAddItemToOrder" text="+ Add Dish" styleClass="btn-success" />
+                  </children>
+               </HBox>
+
+               <Label text="Current Order Line Items" styleClass="form-label" style="-fx-padding: 6px 0 0 0;" />
+               <TableView fx:id="currentOrderItemsTable" prefHeight="180.0">
+                  <columns>
+                     <TableColumn fx:id="colItemName" prefWidth="220.0" text="Item Name" />
+                     <TableColumn fx:id="colItemQty" prefWidth="50.0" text="Qty" />
+                     <TableColumn fx:id="colItemPrice" prefWidth="90.0" text="Price (₹)" />
+                     <TableColumn fx:id="colItemTotal" prefWidth="90.0" text="Subtotal (₹)" />
+                  </columns>
+               </TableView>
+               <Button onAction="#handleRemoveSelectedItem" text="Remove Selected Line" styleClass="btn-danger" />
+
+               <!-- Bill Breakdown -->
+               <VBox spacing="4.0" style="-fx-background-color: #0f172a; -fx-padding: 12px; -fx-background-radius: 6px;">
+                  <children>
+                     <HBox><Label text="Subtotal:" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblSubtotal" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <HBox><Label text="Discount:" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblDiscount" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <HBox><Label text="GST (5%):" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblTax" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <HBox><Label text="Service Charge (2.5%):" textFill="#94a3b8" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblServiceCharge" text="₹ 0.00" textFill="#f8fafc"/></HBox>
+                     <Separator style="-fx-background-color: #334155;" />
+                     <HBox><Label text="GRAND TOTAL:" style="-fx-font-weight: bold; -fx-text-fill: #38bdf8;" HBox.hgrow="ALWAYS" maxWidth="Infinity"/><Label fx:id="lblGrandTotal" text="₹ 0.00" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #38bdf8;"/></HBox>
+                  </children>
+               </VBox>
+
+               <TextArea fx:id="orderNotesArea" prefRowCount="2" promptText="Overall order notes (e.g. VIP guest, anniversary)" />
+
+               <Button onAction="#handleCreateAndSendToKitchen" text="🚀 Send Order to Kitchen" maxWidth="Infinity" prefHeight="40.0" styleClass="btn-primary" />
+            </children>
+         </VBox>
+
+         <!-- Right Side: Orders Live History -->
+         <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <children>
+               <Label text="Recent Orders Ledger" styleClass="form-title" />
+               <TableView fx:id="ordersHistoryTable" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="colHistNumber" prefWidth="130.0" text="Order #" />
+                     <TableColumn fx:id="colHistTable" prefWidth="70.0" text="Table" />
+                     <TableColumn fx:id="colHistCustomer" prefWidth="130.0" text="Customer" />
+                     <TableColumn fx:id="colHistStatus" prefWidth="110.0" text="Status" />
+                     <TableColumn fx:id="colHistTotal" prefWidth="100.0" text="Total (₹)" />
+                  </columns>
+               </TableView>
+               <Button onAction="#handleCancelOrder" text="Cancel Selected Order" styleClass="btn-danger" />
+            </children>
+         </VBox>
+      </HBox>
+   </children>
+</VBox>
