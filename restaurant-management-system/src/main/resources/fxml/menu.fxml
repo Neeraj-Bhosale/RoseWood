@@ -5,7 +5,7 @@
 
 <VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.MenuController">
    <children>
-      <HBox alignment="CENTER_LEFT" spacing="15.0">
+      <HBox alignment="CENTER_LEFT" spacing="12.0">
          <children>
             <VBox spacing="2.0" HBox.hgrow="ALWAYS">
                <children>
@@ -13,27 +13,36 @@
                   <Label text="Manage restaurant categories, prices, preparation time &amp; availability" styleClass="page-subtitle" />
                </children>
             </VBox>
-            <ComboBox fx:id="filterCategoryBox" prefWidth="180.0" onAction="#handleSearch" />
-            <TextField fx:id="searchField" promptText="Search menu items..." onKeyReleased="#handleSearch" prefWidth="200.0" />
-            <Button onAction="#handleSortByPrice" text="Sort by Price ⇅" styleClass="btn-secondary" />
+            <ComboBox fx:id="filterCategoryBox" prefWidth="150.0" onAction="#handleSearch" />
+            <TextField fx:id="searchField" promptText="Search menu..." onKeyReleased="#handleSearch" prefWidth="160.0" />
+            <Button onAction="#handleSortByPrice" text="Sort ⇅" styleClass="btn-secondary" />
+            <Button onAction="#handleImportDummyData" text="📥 Import Dummy" styleClass="btn-success" />
+            <Button onAction="#handleVacateData" text="🗑️ Vacate" styleClass="btn-danger" />
          </children>
       </HBox>
 
       <HBox spacing="15.0" VBox.vgrow="ALWAYS">
-         <!-- Menu Items Table -->
-         <TableView fx:id="menuTable" HBox.hgrow="ALWAYS">
-            <columns>
-               <TableColumn fx:id="colId" prefWidth="40.0" text="ID" />
-               <TableColumn fx:id="colCategory" prefWidth="160.0" text="Category" />
-               <TableColumn fx:id="colName" prefWidth="220.0" text="Item Name" />
-               <TableColumn fx:id="colPrice" prefWidth="100.0" text="Price (₹)" />
-               <TableColumn fx:id="colPrepTime" prefWidth="90.0" text="Prep (min)" />
-               <TableColumn fx:id="colAvailable" prefWidth="80.0" text="Available" />
-            </columns>
-         </TableView>
+         <!-- Left: Menu Items Table -->
+         <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <children>
+               <TableView fx:id="menuTable" VBox.vgrow="ALWAYS">
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+                  <columns>
+                     <TableColumn fx:id="colId" prefWidth="40.0" text="ID" />
+                     <TableColumn fx:id="colCategory" prefWidth="120.0" text="Category" />
+                     <TableColumn fx:id="colName" prefWidth="160.0" text="Item Name" />
+                     <TableColumn fx:id="colPrice" prefWidth="85.0" text="Price (₹)" />
+                     <TableColumn fx:id="colPrepTime" prefWidth="75.0" text="Prep (min)" />
+                     <TableColumn fx:id="colAvailable" prefWidth="75.0" text="Available" />
+                  </columns>
+               </TableView>
+            </children>
+         </VBox>
 
-         <!-- Menu Item Form -->
-         <VBox prefWidth="320.0" spacing="12.0" styleClass="form-panel">
+         <!-- Right: Menu Item Form -->
+         <VBox prefWidth="330.0" minWidth="300.0" maxWidth="350.0" spacing="10.0" styleClass="form-panel">
             <children>
                <Label text="Dish Details" styleClass="form-title" />
                <VBox spacing="4.0">
@@ -67,23 +76,24 @@
                <VBox spacing="4.0">
                   <children>
                      <Label text="Description" styleClass="form-label" />
-                     <TextArea fx:id="descriptionArea" prefRowCount="3" promptText="Ingredients, culinary style, allergy notes" />
+                     <TextArea fx:id="descriptionArea" prefRowCount="2" promptText="Ingredients, culinary style, allergy notes" />
                   </children>
                </VBox>
                <CheckBox fx:id="availableCheckBox" text="Item is currently Available in Kitchen" selected="true" style="-fx-text-fill: #cbd5e1;" />
 
-               <HBox spacing="10.0" style="-fx-padding: 10px 0 0 0;">
+               <HBox spacing="8.0" style="-fx-padding: 6px 0 0 0;">
                   <children>
                      <Button onAction="#handleAddItem" text="Add Item" styleClass="btn-success" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                      <Button onAction="#handleUpdateItem" text="Update" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                   </children>
                </HBox>
-               <HBox spacing="10.0">
+               <HBox spacing="8.0">
                   <children>
                      <Button onAction="#handleDeleteItem" text="Delete" styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                      <Button onAction="#clearForm" text="Clear" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                   </children>
                </HBox>
+               <Button onAction="#handleManageRecipe" text="🍲 View / Edit Recipe Ingredients" maxWidth="Infinity" styleClass="btn-secondary" style="-fx-padding: 6px;" />
             </children>
          </VBox>
       </HBox>

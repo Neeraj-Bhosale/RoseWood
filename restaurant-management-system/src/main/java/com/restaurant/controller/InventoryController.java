@@ -200,4 +200,31 @@ public class InventoryController {
         supplierCombo.getSelectionModel().clearSelection();
         inventoryTable.getSelectionModel().clearSelection();
     }
+
+    @FXML
+    public void handleImportDummyData() {
+        try {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            int count = dds.importDummyInventory();
+            AlertUtil.showInfo("Dummy Inventory Imported", "Successfully imported " + count + " raw inventory items.");
+            loadSuppliers();
+            loadInventory();
+        } catch (Exception e) {
+            AlertUtil.showError("Import Failed", e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleVacateData() {
+        boolean confirm = AlertUtil.showConfirmation(
+                "Vacate Inventory",
+                "Are you sure you want to clear all inventory items? The inventory will become vacant."
+        );
+        if (confirm) {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            dds.vacateInventory();
+            clearForm();
+            loadInventory();
+        }
+    }
 }

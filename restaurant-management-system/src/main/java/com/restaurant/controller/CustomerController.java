@@ -146,4 +146,30 @@ public class CustomerController {
         addressField.clear();
         customerTable.getSelectionModel().clearSelection();
     }
+
+    @FXML
+    public void handleImportDummyData() {
+        try {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            int count = dds.importDummyCustomers();
+            AlertUtil.showInfo("Customers Imported", "Successfully imported " + count + " dummy customers.");
+            loadCustomers();
+        } catch (Exception e) {
+            AlertUtil.showError("Import Failed", e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleVacateData() {
+        boolean confirm = AlertUtil.showConfirmation(
+                "Vacate Customers",
+                "Are you sure you want to clear all customers? Customers list will become vacant."
+        );
+        if (confirm) {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            dds.vacateCustomers();
+            clearForm();
+            loadCustomers();
+        }
+    }
 }

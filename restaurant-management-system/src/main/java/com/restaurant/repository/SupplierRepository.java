@@ -96,6 +96,32 @@ public class SupplierRepository {
         }
     }
 
+    public Supplier findByName(String name) {
+        if (name == null || name.trim().isEmpty()) return null;
+        String sql = "SELECT * FROM suppliers WHERE LOWER(name) = ? LIMIT 1";
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name.trim().toLowerCase());
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return mapResultSetToSupplier(rs);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error finding supplier by name: " + name, e);
+        }
+        return null;
+    }
+
+    public boolean deleteAll() {
+        String sql = "DELETE FROM suppliers";
+        try (Connection conn = dbConfig.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error clearing all suppliers", e);
+        }
+    }
+
     private Supplier mapResultSetToSupplier(ResultSet rs) throws SQLException {
         Supplier s = new Supplier();
         s.setSupplierId(rs.getInt("supplier_id"));

@@ -34,6 +34,7 @@
                         <Button fx:id="btnBilling" onAction="#showBilling" text="🧾  Billing &amp; Invoices" maxWidth="Infinity" styleClass="nav-button" />
                         <Button fx:id="btnPayments" onAction="#showPayments" text="💳  Payment Terminal" maxWidth="Infinity" styleClass="nav-button" />
                         <Button fx:id="btnReports" onAction="#showReports" text="📈  Reports &amp; Analytics" maxWidth="Infinity" styleClass="nav-button" />
+                        <Button fx:id="btnDataManagement" onAction="#showDataManagement" text="💾  Data &amp; Sample Import" maxWidth="Infinity" styleClass="nav-button" />
                      </children>
                   </VBox>
                </content>

@@ -92,8 +92,16 @@ public class MenuController {
         try {
             MenuCategory cat = categoryComboBox.getValue();
             if (cat == null) {
-                AlertUtil.showWarning("Missing Category", "Please select a menu category.");
-                return;
+                if (categoryComboBox.getItems().isEmpty()) {
+                    MenuCategory defaultCat = new MenuCategory(1, "Main Dishes", "Standard Menu Items", 1);
+                    new com.restaurant.repository.MenuRepository().createCategory(defaultCat);
+                    loadCategories();
+                    cat = defaultCat;
+                    categoryComboBox.setValue(defaultCat);
+                } else {
+                    AlertUtil.showWarning("Missing Category", "Please select a menu category.");
+                    return;
+                }
             }
             double price = Double.parseDouble(priceField.getText().trim());
             int prepTime = Integer.parseInt(prepTimeField.getText().trim());
@@ -192,5 +200,129 @@ public class MenuController {
         availableCheckBox.setSelected(true);
         categoryComboBox.getSelectionModel().clearSelection();
         menuTable.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    public void handleImportDummyData() {
+        try {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            int count = dds.importDummyDishes();
+            AlertUtil.showInfo("Dummy Dishes Imported", "Successfully imported " + count + " dishes with complete ingredient recipes.");
+            loadCategories();
+            loadMenuItems();
+        } catch (Exception e) {
+            AlertUtil.showError("Import Failed", e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleVacateData() {
+        boolean confirm = AlertUtil.showConfirmation(
+                "Vacate Menu Dishes",
+                "Are you sure you want to clear all dishes and categories? The menu catalog will become vacant."
+        );
+        if (confirm) {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            dds.vacateDishes();
+            clearForm();
+            loadCategories();
+            loadMenuItems();
+        }
+    }
+
+    @FXML
+    public void handleManageRecipe() {
+        if (selectedItem == null) {
+            AlertUtil.showWarning("No Dish Selected", "Please select a dish from the menu table to view or configure its ingredients.");
+            return;
+        }
+
+        com.restaurant.service.MenuRecipeService recipeService = new com.restaurant.service.MenuRecipeService();
+        com.restaurant.service.InventoryService inventoryService = new com.restaurant.service.InventoryService();
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Recipe Ingredients — " + selectedItem.getName());
+        dialog.setHeaderText("Map Kitchen Inventory Ingredients to " + selectedItem.getName() + "\nQuantities will be deducted live from inventory whenever this dish is ordered.");
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+        TableView<com.restaurant.model.MenuItemIngredient> recipeTable = new TableView<>();
+        recipeTable.setPrefHeight(200);
+
+        TableColumn<com.restaurant.model.MenuItemIngredient, String> ingNameCol = new TableColumn<>("Ingredient");
+        ingNameCol.setCellValueFactory(new PropertyValueFactory<>("ingredientName"));
+        ingNameCol.setPrefWidth(220);
+
+        TableColumn<com.restaurant.model.MenuItemIngredient, Double> ingQtyCol = new TableColumn<>("Portion Qty");
+        ingQtyCol.setCellValueFactory(new PropertyValueFactory<>("quantityRequired"));
+        ingQtyCol.setPrefWidth(100);
+
+        TableColumn<com.restaurant.model.MenuItemIngredient, String> ingUnitCol = new TableColumn<>("Unit");
+        ingUnitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        ingUnitCol.setPrefWidth(80);
+
+        recipeTable.getColumns().addAll(ingNameCol, ingQtyCol, ingUnitCol);
+
+        ObservableList<com.restaurant.model.MenuItemIngredient> recipeList = FXCollections.observableArrayList(
+                recipeService.getIngredientsForMenuItem(selectedItem.getItemId())
+        );
+        recipeTable.setItems(recipeList);
+
+        // Add Ingredient Controls
+        ComboBox<com.restaurant.model.InventoryItem> invCombo = new ComboBox<>();
+        invCombo.setPromptText("Select Ingredient...");
+        invCombo.setItems(FXCollections.observableArrayList(inventoryService.getAllInventory()));
+        invCombo.setPrefWidth(200);
+
+        TextField qtyField = new TextField();
+        qtyField.setPromptText("Qty (e.g. 0.25)");
+        qtyField.setPrefWidth(110);
+
+        Button btnAddIng = new Button("+ Add Ingredient");
+        btnAddIng.setStyle("-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;");
+        btnAddIng.setOnAction(ev -> {
+            com.restaurant.model.InventoryItem selectedInv = invCombo.getValue();
+            if (selectedInv == null) {
+                AlertUtil.showWarning("Missing Ingredient", "Please select an inventory ingredient.");
+                return;
+            }
+            try {
+                double q = Double.parseDouble(qtyField.getText().trim());
+                if (q <= 0) {
+                    AlertUtil.showWarning("Invalid Quantity", "Quantity must be greater than zero.");
+                    return;
+                }
+                recipeService.addIngredientToDish(selectedItem.getItemId(), selectedInv.getInventoryId(), q, selectedInv.getUnit());
+                recipeList.clear();
+                recipeList.addAll(recipeService.getIngredientsForMenuItem(selectedItem.getItemId()));
+                qtyField.clear();
+            } catch (NumberFormatException nfe) {
+                AlertUtil.showError("Invalid Number", "Please enter a valid numeric quantity (e.g. 0.25).");
+            }
+        });
+
+        Button btnDeleteIng = new Button("Remove Selected");
+        btnDeleteIng.setStyle("-fx-background-color: #ef4444; -fx-text-fill: white;");
+        btnDeleteIng.setOnAction(ev -> {
+            com.restaurant.model.MenuItemIngredient sel = recipeTable.getSelectionModel().getSelectedItem();
+            if (sel != null && sel.getRecipeId() > 0) {
+                recipeService.removeIngredient(sel.getRecipeId());
+                recipeList.remove(sel);
+            }
+        });
+
+        javafx.scene.layout.HBox addBox = new javafx.scene.layout.HBox(10, invCombo, qtyField, btnAddIng);
+        addBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+        javafx.scene.layout.VBox dialogContent = new javafx.scene.layout.VBox(12,
+                new Label("Current Recipe Ingredients:"),
+                recipeTable,
+                btnDeleteIng,
+                new Separator(),
+                new Label("Add Ingredient to Recipe:"),
+                addBox
+        );
+        dialogContent.setPadding(new javafx.geometry.Insets(15));
+        dialog.getDialogPane().setContent(dialogContent);
+        dialog.showAndWait();
     }
 }

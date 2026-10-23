@@ -5,7 +5,7 @@
 
 <VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.InventoryController">
    <children>
-      <HBox alignment="CENTER_LEFT" spacing="15.0">
+      <HBox alignment="CENTER_LEFT" spacing="12.0">
          <children>
             <VBox spacing="2.0" HBox.hgrow="ALWAYS">
                <children>
@@ -14,27 +14,36 @@
                </children>
             </VBox>
             <Button onAction="#handleShowLowStockOnly" text="⚠️ Low Stock Alert" styleClass="btn-danger" />
-            <Button onAction="#handleShowAllSorted" text="Sort by Stock Asc ⇅" styleClass="btn-secondary" />
+            <Button onAction="#handleShowAllSorted" text="Sort ⇅" styleClass="btn-secondary" />
+            <Button onAction="#handleImportDummyData" text="📥 Import Dummy" styleClass="btn-success" />
+            <Button onAction="#handleVacateData" text="🗑️ Vacate" styleClass="btn-danger" />
          </children>
       </HBox>
 
       <HBox spacing="15.0" VBox.vgrow="ALWAYS">
-         <!-- Inventory Items Table -->
-         <TableView fx:id="inventoryTable" HBox.hgrow="ALWAYS">
-            <columns>
-               <TableColumn fx:id="colId" prefWidth="40.0" text="ID" />
-               <TableColumn fx:id="colName" prefWidth="180.0" text="Ingredient" />
-               <TableColumn fx:id="colCategory" prefWidth="100.0" text="Category" />
-               <TableColumn fx:id="colQty" prefWidth="80.0" text="Stock" />
-               <TableColumn fx:id="colUnit" prefWidth="60.0" text="Unit" />
-               <TableColumn fx:id="colMinStock" prefWidth="80.0" text="Min Stock" />
-               <TableColumn fx:id="colUnitCost" prefWidth="90.0" text="Cost (₹)" />
-               <TableColumn fx:id="colSupplier" prefWidth="150.0" text="Supplier" />
-            </columns>
-         </TableView>
+         <!-- Left: Inventory Items Table -->
+         <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <children>
+               <TableView fx:id="inventoryTable" VBox.vgrow="ALWAYS">
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+                  <columns>
+                     <TableColumn fx:id="colId" prefWidth="35.0" text="ID" />
+                     <TableColumn fx:id="colName" prefWidth="130.0" text="Ingredient" />
+                     <TableColumn fx:id="colCategory" prefWidth="90.0" text="Category" />
+                     <TableColumn fx:id="colQty" prefWidth="70.0" text="Stock" />
+                     <TableColumn fx:id="colUnit" prefWidth="55.0" text="Unit" />
+                     <TableColumn fx:id="colMinStock" prefWidth="75.0" text="Min Stock" />
+                     <TableColumn fx:id="colUnitCost" prefWidth="80.0" text="Cost (₹)" />
+                     <TableColumn fx:id="colSupplier" prefWidth="120.0" text="Supplier" />
+                  </columns>
+               </TableView>
+            </children>
+         </VBox>
 
-         <!-- Inventory Item Form -->
-         <VBox prefWidth="320.0" spacing="12.0" styleClass="form-panel">
+         <!-- Right: Inventory Item Form -->
+         <VBox prefWidth="330.0" minWidth="300.0" maxWidth="350.0" spacing="10.0" styleClass="form-panel">
             <children>
                <Label text="Ingredient Master" styleClass="form-title" />
                <VBox spacing="4.0">
@@ -57,7 +66,7 @@
                            <TextField fx:id="quantityField" promptText="25.0" />
                         </children>
                      </VBox>
-                     <VBox spacing="4.0" prefWidth="100.0">
+                     <VBox spacing="4.0" prefWidth="90.0">
                         <children>
                            <Label text="Unit *" styleClass="form-label" />
                            <TextField fx:id="unitField" promptText="kg / ltr" />
@@ -88,20 +97,20 @@
                   </children>
                </VBox>
 
-               <HBox spacing="10.0" alignment="CENTER_LEFT" style="-fx-padding: 8px 0 0 0;">
+               <HBox spacing="8.0" alignment="CENTER_LEFT" style="-fx-padding: 4px 0 0 0;">
                   <children>
-                     <TextField fx:id="adjustQtyField" promptText="+/- Quick Add/Deduct" HBox.hgrow="ALWAYS" />
+                     <TextField fx:id="adjustQtyField" promptText="+/- Quick Adjust" HBox.hgrow="ALWAYS" />
                      <Button onAction="#handleQuickStockAdjust" text="Adjust Stock" styleClass="btn-secondary" />
                   </children>
                </HBox>
 
-               <HBox spacing="10.0" style="-fx-padding: 6px 0 0 0;">
+               <HBox spacing="8.0" style="-fx-padding: 6px 0 0 0;">
                   <children>
                      <Button onAction="#handleAddItem" text="Add Item" styleClass="btn-success" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                      <Button onAction="#handleUpdateItem" text="Update" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                   </children>
                </HBox>
-               <HBox spacing="10.0">
+               <HBox spacing="8.0">
                   <children>
                      <Button onAction="#handleDeleteItem" text="Delete" styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                      <Button onAction="#clearForm" text="Clear" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />

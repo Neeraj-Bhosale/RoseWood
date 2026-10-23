@@ -51,6 +51,7 @@ public class DashboardController {
     @FXML private Button btnBilling;
     @FXML private Button btnPayments;
     @FXML private Button btnReports;
+    @FXML private Button btnDataManagement;
 
     private final ReportService reportService = new ReportService();
 
@@ -67,25 +68,28 @@ public class DashboardController {
             Main.loadLoginScreen();
             return;
         }
+
         loadDashboardMetrics();
     }
 
     private void applyRolePermissions(UserRole role) {
-        // Enforce role-based UI access control
         if (role == UserRole.KITCHEN_STAFF) {
             if (btnOrders != null) btnOrders.setDisable(true);
             if (btnBilling != null) btnBilling.setDisable(true);
             if (btnPayments != null) btnPayments.setDisable(true);
             if (btnReports != null) btnReports.setDisable(true);
+            if (btnDataManagement != null) btnDataManagement.setDisable(true);
         } else if (role == UserRole.WAITER) {
             if (btnBilling != null) btnBilling.setDisable(true);
             if (btnPayments != null) btnPayments.setDisable(true);
             if (btnReports != null) btnReports.setDisable(true);
             if (btnInventory != null) btnInventory.setDisable(true);
+            if (btnDataManagement != null) btnDataManagement.setDisable(true);
         } else if (role == UserRole.CASHIER) {
             if (btnMenu != null) btnMenu.setDisable(true);
             if (btnKitchen != null) btnKitchen.setDisable(true);
             if (btnInventory != null) btnInventory.setDisable(true);
+            if (btnDataManagement != null) btnDataManagement.setDisable(true);
         }
     }
 
@@ -141,6 +145,7 @@ public class DashboardController {
     @FXML public void showBilling() { loadView("billing.fxml"); }
     @FXML public void showPayments() { loadView("payments.fxml"); }
     @FXML public void showReports() { loadView("reports.fxml"); }
+    @FXML public void showDataManagement() { loadView("data_management.fxml"); }
 
     @FXML
     public void handleLogout() {

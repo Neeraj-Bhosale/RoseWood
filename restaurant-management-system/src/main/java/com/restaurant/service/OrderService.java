@@ -71,18 +71,14 @@ public class OrderService {
             menuService.verifyItemAvailable(item.getItemId());
         }
 
-        Map<Integer, Double> computedDeductions = inventoryDeductions == null
-                ? menuRecipeService.buildInventoryDeductionsForOrder(items)
-                : inventoryDeductions;
+        String orderNumber = "ORD-" + (System.currentTimeMillis() % 10000000);
+        List<com.restaurant.model.InventoryDeductionDetail> deductions =
+                inventoryService.deductStockForOrder(orderNumber, items, inventoryDeductions);
 
-        if (!computedDeductions.isEmpty()) {
-            inventoryService.deductStockForOrder(computedDeductions);
-        }
-
-        String orderNumber = "ORD-" + System.currentTimeMillis() % 10000000;
         Order order = new Order(orderNumber, customerId, tableId, employeeId);
         order.setSpecialNotes(specialNotes);
         order.setItems(items);
+        order.setInventoryDeductions(deductions);
         order.setStatus(OrderStatus.CONFIRMED);
 
         boolean saved = orderRepository.createOrderWithItems(order);

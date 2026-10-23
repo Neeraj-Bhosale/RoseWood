@@ -17,16 +17,18 @@ public class MenuRecipeServiceTest {
         MenuRecipeService recipeService = new MenuRecipeService();
 
         List<OrderItem> items = List.of(
-                new OrderItem(5, "Butter Chicken Supreme", 2, 440.0, "Rich gravy"),
-                new OrderItem(6, "Paneer Butter Masala", 1, 360.0, "Less oil")
+                new OrderItem(9, "Butter Chicken", 2, 340.0, "Rich gravy"),
+                new OrderItem(1, "Paneer Butter Masala", 1, 280.0, "Less oil")
         );
 
         Map<Integer, Double> deductions = recipeService.buildInventoryDeductionsForOrder(items);
 
-        assertEquals(0.9, deductions.get(3), 0.001);
-        assertEquals(0.88, deductions.get(6), 0.001);
-        assertEquals(0.40, deductions.get(1), 0.001);
-        assertEquals(0.28, deductions.get(12), 0.001);
-        assertEquals(0.58, deductions.get(7), 0.001);
+        assertEquals(0.25, deductions.get(1), 0.001);  // Paneer
+        assertEquals(0.70, deductions.get(2), 0.001);  // Chicken
+        assertEquals(0.17, deductions.get(5), 0.001);  // Butter
+        assertEquals(0.15, deductions.get(6), 0.001);  // Fresh Cream
+        assertEquals(0.70, deductions.get(7), 0.001);  // Tomatoes
+        assertEquals(0.15, deductions.get(8), 0.001);  // Onions
+        assertEquals(0.03, deductions.get(16), 0.001); // Garam Masala
     }
 }

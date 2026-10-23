@@ -83,6 +83,23 @@ public class ActivityLogger {
                 String.format("Type: %s | File: %s", reportType, filePath));
     }
 
+    /** Log live inventory deductions for an order with exact details. */
+    public void logInventoryDeductions(String orderNumber, java.util.List<com.restaurant.model.InventoryDeductionDetail> details) {
+        if (details == null || details.isEmpty()) {
+            writeEntry("INVENTORY_DEDUCT", "Order " + orderNumber + " | No raw stock deductions required");
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order ").append(orderNumber).append(" | Live Deductions: ");
+        for (int i = 0; i < details.size(); i++) {
+            com.restaurant.model.InventoryDeductionDetail d = details.get(i);
+            sb.append(String.format("%s: -%.2f %s (Rem: %.2f %s)",
+                    d.getIngredientName(), d.getDeductedQuantity(), d.getUnit(), d.getRemainingStock(), d.getUnit()));
+            if (i < details.size() - 1) sb.append("; ");
+        }
+        writeEntry("INVENTORY_DEDUCT", sb.toString());
+    }
+
     /** Log any application-level error with the exception message. */
     public void logError(String context, String errorMessage) {
         writeEntry("ERROR", context + " | " + errorMessage);

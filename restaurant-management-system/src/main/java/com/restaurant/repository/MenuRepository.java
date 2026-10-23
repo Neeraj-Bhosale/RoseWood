@@ -121,6 +121,70 @@ public class MenuRepository {
         }
     }
 
+    public boolean createCategory(MenuCategory cat) {
+        String sql = "INSERT INTO menu_categories (name, description, display_order) VALUES (?, ?, ?)";
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, cat.getName());
+            stmt.setString(2, cat.getDescription());
+            stmt.setInt(3, cat.getDisplayOrder());
+            int affected = stmt.executeUpdate();
+            if (affected > 0) {
+                try (ResultSet keys = stmt.getGeneratedKeys()) {
+                    if (keys.next()) cat.setCategoryId(keys.getInt(1));
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error creating menu category: " + cat.getName(), e);
+        }
+        return false;
+    }
+
+    public MenuCategory findCategoryByName(String name) {
+        if (name == null || name.trim().isEmpty()) return null;
+        String sql = "SELECT * FROM menu_categories WHERE LOWER(name) = ? LIMIT 1";
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name.trim().toLowerCase());
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new MenuCategory(
+                            rs.getInt("category_id"),
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("display_order")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error finding category: " + name, e);
+        }
+        return null;
+    }
+
+    public boolean deleteAllItems() {
+        String sql = "DELETE FROM menu_items";
+        try (Connection conn = dbConfig.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error clearing all menu items", e);
+        }
+    }
+
+    public boolean deleteAllCategories() {
+        String sql = "DELETE FROM menu_categories";
+        try (Connection conn = dbConfig.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error clearing all menu categories", e);
+        }
+    }
+
     private MenuItem mapResultSetToMenuItem(ResultSet rs) throws SQLException {
         MenuItem item = new MenuItem(
                 rs.getInt("item_id"),

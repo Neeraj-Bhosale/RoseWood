@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.controller.DataManagementController">
+   <children>
+      <!-- Page Header -->
+      <HBox alignment="CENTER_LEFT" spacing="15.0">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="💾 Data Management &amp; Sample Importer" styleClass="page-title" />
+                  <Label text="Load pre-built dummy datasets for inventory, suppliers, dishes and customers, or vacate all data to test manual additions." styleClass="page-subtitle" />
+               </children>
+            </VBox>
+            <Button onAction="#handleRefresh" text="🔄 Refresh Status" styleClass="btn-secondary" />
+            <Button onAction="#handleImportAll" text="🚀 Import All Dummy Data" styleClass="btn-success" />
+            <Button onAction="#handleVacateAll" text="⚠️ Vacate All Data (Clean Slate)" styleClass="btn-danger" />
+         </children>
+      </HBox>
+
+      <!-- Status Cards Grid -->
+      <GridPane hgap="15.0" vgap="15.0">
+         <columnConstraints>
+            <ColumnConstraints percentWidth="25.0" />
+            <ColumnConstraints percentWidth="25.0" />
+            <ColumnConstraints percentWidth="25.0" />
+            <ColumnConstraints percentWidth="25.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="160.0" />
+         </rowConstraints>
+         <children>
+            <!-- Card 1: Suppliers -->
+            <VBox spacing="10.0" styleClass="form-panel" GridPane.columnIndex="0">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="🚚 Suppliers" styleClass="form-title" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Label fx:id="badgeSuppliers" text="0 Loaded" styleClass="badge, badge-blue" />
+                     </children>
+                  </HBox>
+                  <Label text="Dairy, organic farm, poultry and grain wholesale suppliers." style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <HBox spacing="8.0">
+                     <children>
+                        <Button onAction="#handleImportSuppliers" text="Import Dummy" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Button onAction="#handleVacateSuppliers" text="Vacate" styleClass="btn-danger" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- Card 2: Kitchen Inventory -->
+            <VBox spacing="10.0" styleClass="form-panel" GridPane.columnIndex="1">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="📦 Inventory" styleClass="form-title" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Label fx:id="badgeInventory" text="0 Loaded" styleClass="badge, badge-blue" />
+                     </children>
+                  </HBox>
+                  <Label text="Paneer, Chicken, Mutton, Basmati Rice, Butter, Cheese &amp; Vegetables." style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <HBox spacing="8.0">
+                     <children>
+                        <Button onAction="#handleImportInventory" text="Import Dummy" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Button onAction="#handleVacateInventory" text="Vacate" styleClass="btn-danger" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- Card 3: Menu Dishes & Recipes -->
+            <VBox spacing="10.0" styleClass="form-panel" GridPane.columnIndex="2">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="📖 Dishes &amp; Recipes" styleClass="form-title" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Label fx:id="badgeDishes" text="0 Loaded" styleClass="badge, badge-blue" />
+                     </children>
+                  </HBox>
+                  <Label text="19 Dishes across 6 Categories with full ingredient recipe links." style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <HBox spacing="8.0">
+                     <children>
+                        <Button onAction="#handleImportDishes" text="Import Dummy" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Button onAction="#handleVacateDishes" text="Vacate" styleClass="btn-danger" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- Card 4: Customers -->
+            <VBox spacing="10.0" styleClass="form-panel" GridPane.columnIndex="3">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="👥 Customers" styleClass="form-title" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Label fx:id="badgeCustomers" text="0 Loaded" styleClass="badge, badge-blue" />
+                     </children>
+                  </HBox>
+                  <Label text="Sample diners with historical visit counts and loyalty points." style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <HBox spacing="8.0">
+                     <children>
+                        <Button onAction="#handleImportCustomers" text="Import Dummy" styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Button onAction="#handleVacateCustomers" text="Vacate" styleClass="btn-danger" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+
+      <!-- Live Deduction Audit Logs Table -->
+      <VBox spacing="8.0" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="📋 Live Backend Inventory Deduction Audit Ledger" styleClass="form-title" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                  <Label text="Exact quantities deducted from inventory by placed orders" style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" />
+               </children>
+            </HBox>
+            <TableView fx:id="logsTable" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="colLogId" prefWidth="50.0" text="ID" />
+                  <TableColumn fx:id="colOrderNumber" prefWidth="120.0" text="Order #" />
+                  <TableColumn fx:id="colIngredient" prefWidth="180.0" text="Raw Ingredient" />
+                  <TableColumn fx:id="colDeducted" prefWidth="90.0" text="Deducted" />
+                  <TableColumn fx:id="colUnit" prefWidth="50.0" text="Unit" />
+                  <TableColumn fx:id="colPrevious" prefWidth="90.0" text="Prev Stock" />
+                  <TableColumn fx:id="colRemaining" prefWidth="90.0" text="New Stock" />
+                  <TableColumn fx:id="colTime" prefWidth="140.0" text="Timestamp" />
+                  <TableColumn fx:id="colNotes" prefWidth="200.0" text="Dish Used" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</VBox>

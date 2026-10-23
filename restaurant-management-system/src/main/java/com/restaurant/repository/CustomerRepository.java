@@ -114,6 +114,17 @@ public class CustomerRepository {
         }
     }
 
+    public boolean deleteAll() {
+        String sql = "DELETE FROM customers";
+        try (Connection conn = dbConfig.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error clearing all customers", e);
+        }
+    }
+
     private Customer mapResultSetToCustomer(ResultSet rs) throws SQLException {
         Customer c = new Customer();
         c.setCustomerId(rs.getInt("customer_id"));

@@ -117,6 +117,50 @@ public class InventoryRepository {
         }
     }
 
+    public InventoryItem findById(int inventoryId) {
+        String sql = "SELECT i.*, s.name as supplier_name FROM inventory i " +
+                     "LEFT JOIN suppliers s ON i.supplier_id = s.supplier_id " +
+                     "WHERE i.inventory_id = ?";
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, inventoryId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return mapResultSetToInventoryItem(rs);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error finding inventory item by id: " + inventoryId, e);
+        }
+        return null;
+    }
+
+    public InventoryItem findByName(String name) {
+        if (name == null || name.trim().isEmpty()) return null;
+        String sql = "SELECT i.*, s.name as supplier_name FROM inventory i " +
+                     "LEFT JOIN suppliers s ON i.supplier_id = s.supplier_id " +
+                     "WHERE LOWER(i.ingredient_name) = ? LIMIT 1";
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name.trim().toLowerCase());
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return mapResultSetToInventoryItem(rs);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error finding inventory item by name: " + name, e);
+        }
+        return null;
+    }
+
+    public boolean deleteAll() {
+        String sql = "DELETE FROM inventory";
+        try (Connection conn = dbConfig.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error clearing all inventory items", e);
+        }
+    }
+
     private InventoryItem mapResultSetToInventoryItem(ResultSet rs) throws SQLException {
         InventoryItem item = new InventoryItem();
         item.setInventoryId(rs.getInt("inventory_id"));

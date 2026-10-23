@@ -23,25 +23,28 @@
             <children>
                <Label text="Active Kitchen Queue" styleClass="form-title" />
                <TableView fx:id="kitchenOrdersTable" VBox.vgrow="ALWAYS">
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
                   <columns>
                      <TableColumn fx:id="colOrderId" prefWidth="50.0" text="ID" />
-                     <TableColumn fx:id="colTable" prefWidth="80.0" text="Table" />
-                     <TableColumn fx:id="colOrderNumber" prefWidth="130.0" text="Order #" />
-                     <TableColumn fx:id="colStatus" prefWidth="110.0" text="Status" />
-                     <TableColumn fx:id="colTime" prefWidth="140.0" text="Order Time" />
+                     <TableColumn fx:id="colTable" prefWidth="70.0" text="Table" />
+                     <TableColumn fx:id="colOrderNumber" prefWidth="120.0" text="Order #" />
+                     <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status" />
+                     <TableColumn fx:id="colTime" prefWidth="130.0" text="Order Time" />
                   </columns>
                </TableView>
             </children>
          </VBox>
 
          <!-- Right: Ticket Details and Actions -->
-         <VBox prefWidth="380.0" spacing="12.0" styleClass="form-panel">
+         <VBox prefWidth="350.0" minWidth="320.0" maxWidth="360.0" spacing="10.0" styleClass="form-panel">
             <children>
                <Label text="Ticket Dishes to Cook" styleClass="form-title" />
-               <ListView fx:id="orderItemsListView" prefHeight="220.0" style="-fx-background-color: #0f172a;" />
+               <ListView fx:id="orderItemsListView" prefHeight="180.0" style="-fx-background-color: #0f172a;" />
 
                <Label text="Chef Special Instructions:" styleClass="form-label" />
-               <TextArea fx:id="notesArea" editable="false" prefRowCount="3" wrapText="true" />
+               <TextArea fx:id="notesArea" editable="false" prefRowCount="2" wrapText="true" />
 
                <Separator style="-fx-background-color: #334155;" />
 

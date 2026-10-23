@@ -201,7 +201,20 @@ public class OrderController {
                     orderNotesArea.getText()
             );
 
-            AlertUtil.showInfo("Order Placed", "Order #" + order.getOrderNumber() + " created and dispatched to Kitchen!");
+            StringBuilder msg = new StringBuilder();
+            msg.append("Order #").append(order.getOrderNumber()).append(" created and dispatched to Kitchen!\n\n");
+            if (order.getInventoryDeductions() != null && !order.getInventoryDeductions().isEmpty()) {
+                msg.append("Live Inventory Deductions Applied in Backend:\n");
+                for (com.restaurant.model.InventoryDeductionDetail d : order.getInventoryDeductions()) {
+                    msg.append(String.format("  • %s: -%.2f %s (Remaining: %.2f %s)\n",
+                            d.getIngredientName(), d.getDeductedQuantity(), d.getUnit(),
+                            d.getRemainingStock(), d.getUnit()));
+                }
+            } else {
+                msg.append("(No specific raw inventory ingredients mapped for these dishes.)\n");
+            }
+
+            AlertUtil.showInfo("Order Placed & Stock Reduced", msg.toString());
             currentItemsList.clear();
             orderNotesArea.clear();
             recalculateCurrentOrderTotals();

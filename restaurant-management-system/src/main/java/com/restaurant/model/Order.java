@@ -23,11 +23,13 @@ public class Order {
     private double totalAmount;
     private String specialNotes;
     private List<OrderItem> items;
+    private List<InventoryDeductionDetail> inventoryDeductions;
 
     public Order() {
         this.status = OrderStatus.CREATED;
         this.orderDateTime = LocalDateTime.now();
         this.items = new ArrayList<>();
+        this.inventoryDeductions = new ArrayList<>();
     }
 
     public Order(String orderNumber, Integer customerId, Integer tableId, int employeeId) {
@@ -194,6 +196,14 @@ public class Order {
     public void setItems(List<OrderItem> items) {
         this.items = items != null ? items : new ArrayList<>();
         recalculateTotals();
+    }
+
+    public List<InventoryDeductionDetail> getInventoryDeductions() {
+        return inventoryDeductions;
+    }
+
+    public void setInventoryDeductions(List<InventoryDeductionDetail> inventoryDeductions) {
+        this.inventoryDeductions = inventoryDeductions != null ? inventoryDeductions : new ArrayList<>();
     }
 
     @Override

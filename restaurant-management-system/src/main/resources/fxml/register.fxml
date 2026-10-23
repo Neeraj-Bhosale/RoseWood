@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!--
+  Registration screen — fully responsive.
+  Root HBox fills 100 % of the Scene.
+  Left info panel: fixed min/max width.
+  Right form panel: HBox.hgrow=ALWAYS, ScrollPane so content never clips
+  even on small screens.
+-->
+<HBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.restaurant.controller.RegisterController"
+      styleClass="main-window"
+      maxHeight="Infinity" maxWidth="Infinity"
+      HBox.hgrow="ALWAYS">
+   <children>
+
+      <!-- ===== Left Info Panel ===== -->
+      <VBox alignment="TOP_LEFT" minWidth="300.0" prefWidth="380.0" maxWidth="440.0"
+            maxHeight="Infinity" spacing="0.0"
+            style="-fx-background-color: linear-gradient(to bottom right, #0b1329, #1e293b);
+                   -fx-border-color: #1e3a5f; -fx-border-width: 0 1px 0 0;">
+         <children>
+
+            <!-- Brand -->
+            <VBox spacing="6.0"
+                  style="-fx-padding: 40px 36px 28px 36px;
+                         -fx-background-color: rgba(14,165,233,0.07);
+                         -fx-border-color: #1e3a5f; -fx-border-width: 0 0 1px 0;">
+               <children>
+                  <Label text="🍽️ ROSEWOOD"
+                         style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #38bdf8;" />
+                  <Label text="Staff Registration Portal"
+                         style="-fx-font-size: 13px; -fx-text-fill: #7dd3fc; -fx-font-weight: bold;" />
+                  <Label text="Create your account to access the restaurant management platform."
+                         wrapText="true"
+                         style="-fx-font-size: 12px; -fx-text-fill: #64748b; -fx-padding: 4 0 0 0;" />
+               </children>
+            </VBox>
+
+            <!-- Role descriptions -->
+            <VBox spacing="14.0" VBox.vgrow="ALWAYS" style="-fx-padding: 28px 36px;">
+               <children>
+                  <Label text="Available Roles"
+                         style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+
+                  <HBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="👑" style="-fx-font-size: 16px;" />
+                     <VBox spacing="1">
+                        <Label text="Manager"
+                               style="-fx-text-fill: #f1f5f9; -fx-font-weight: bold; -fx-font-size: 12px;" />
+                        <Label text="Menu, inventory &amp; analytics" wrapText="true"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 11px;" />
+                     </VBox>
+                  </HBox>
+
+                  <HBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="🧑‍🍳" style="-fx-font-size: 16px;" />
+                     <VBox spacing="1">
+                        <Label text="Waiter / Server"
+                               style="-fx-text-fill: #f1f5f9; -fx-font-weight: bold; -fx-font-size: 12px;" />
+                        <Label text="Orders, tables &amp; kitchen dispatch" wrapText="true"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 11px;" />
+                     </VBox>
+                  </HBox>
+
+                  <HBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="💳" style="-fx-font-size: 16px;" />
+                     <VBox spacing="1">
+                        <Label text="Cashier"
+                               style="-fx-text-fill: #f1f5f9; -fx-font-weight: bold; -fx-font-size: 12px;" />
+                        <Label text="Billing, receipts &amp; payments" wrapText="true"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 11px;" />
+                     </VBox>
+                  </HBox>
+
+                  <HBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="🔥" style="-fx-font-size: 16px;" />
+                     <VBox spacing="1">
+                        <Label text="Kitchen Staff"
+                               style="-fx-text-fill: #f1f5f9; -fx-font-weight: bold; -fx-font-size: 12px;" />
+                        <Label text="Kitchen display &amp; order updates" wrapText="true"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 11px;" />
+                     </VBox>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <!-- Security note -->
+            <VBox spacing="4.0"
+                  style="-fx-padding: 20px 36px; -fx-border-color: #1e3a5f; -fx-border-width: 1px 0 0 0;">
+               <children>
+                  <Label text="🔒 Passwords are stored as salted SHA-256 hashes." wrapText="true"
+                         style="-fx-text-fill: #475569; -fx-font-size: 11px;" />
+                  <Label text="Admin accounts cannot be created through registration." wrapText="true"
+                         style="-fx-text-fill: #475569; -fx-font-size: 11px;" />
+               </children>
+            </VBox>
+
+         </children>
+      </VBox>
+
+      <!-- ===== Right Registration Form — grows to fill remaining width ===== -->
+      <ScrollPane fitToWidth="true" HBox.hgrow="ALWAYS" maxHeight="Infinity"
+                  style="-fx-background-color: #0f172a; -fx-border-width: 0; -fx-background: #0f172a;">
+         <content>
+            <VBox alignment="TOP_LEFT" spacing="16.0" maxWidth="Infinity"
+                  style="-fx-padding: 44px 80px; -fx-background-color: #0f172a;">
+               <children>
+
+                  <!-- Title -->
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label text="Create Your Account"
+                               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #f8fafc;" />
+                        <Label text="Fill in your details to register as a staff member."
+                               style="-fx-text-fill: #64748b; -fx-font-size: 12px;" />
+                     </children>
+                  </VBox>
+
+                  <!-- Status Labels -->
+                  <Label fx:id="errorLabel" wrapText="true" maxWidth="Infinity"
+                         managed="false" visible="false"
+                         style="-fx-text-fill: #ef4444; -fx-font-size: 12px; -fx-font-weight: bold;
+                                -fx-background-color: rgba(239,68,68,0.08); -fx-padding: 8 12;
+                                -fx-background-radius: 6; -fx-border-color: rgba(239,68,68,0.3);
+                                -fx-border-radius: 6;" />
+                  <Label fx:id="successLabel" wrapText="true" maxWidth="Infinity"
+                         managed="false" visible="false"
+                         style="-fx-text-fill: #10b981; -fx-font-size: 12px; -fx-font-weight: bold;
+                                -fx-background-color: rgba(16,185,129,0.08); -fx-padding: 8 12;
+                                -fx-background-radius: 6; -fx-border-color: rgba(16,185,129,0.3);
+                                -fx-border-radius: 6;" />
+
+                  <!-- Full Name -->
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="Full Name *"
+                               style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                        <TextField fx:id="fullNameField" promptText="e.g. Rahul Sharma"
+                                   prefHeight="40.0" maxWidth="Infinity" />
+                     </children>
+                  </VBox>
+
+                  <!-- Username + Email -->
+                  <HBox spacing="16.0">
+                     <children>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Username *"
+                                     style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                              <TextField fx:id="usernameField" promptText="e.g. rahul_sharma"
+                                         prefHeight="40.0" maxWidth="Infinity" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Email Address *"
+                                     style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                              <TextField fx:id="emailField" promptText="e.g. rahul@rosewood.com"
+                                         prefHeight="40.0" maxWidth="Infinity" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+
+                  <!-- Phone + Role -->
+                  <HBox spacing="16.0">
+                     <children>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Phone Number *"
+                                     style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                              <TextField fx:id="phoneField" promptText="e.g. 9876543210"
+                                         prefHeight="40.0" maxWidth="Infinity" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Role *"
+                                     style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                              <ComboBox fx:id="roleComboBox" maxWidth="Infinity" prefHeight="40.0"
+                                        promptText="Select your role" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+
+                  <!-- Password with strength meter -->
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="Password *"
+                               style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                        <StackPane maxWidth="Infinity">
+                           <children>
+                              <PasswordField fx:id="passwordField" promptText="Minimum 8 characters"
+                                             prefHeight="40.0"
+                                             style="-fx-padding: 0 44 0 10;" />
+                              <TextField fx:id="passwordVisibleField" promptText="Minimum 8 characters"
+                                         prefHeight="40.0" managed="false" visible="false"
+                                         style="-fx-padding: 0 44 0 10;" />
+                              <Button fx:id="togglePasswordBtn" text="👁" onAction="#togglePasswordVisibility"
+                                      style="-fx-background-color: transparent; -fx-text-fill: #64748b;
+                                             -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 0 12 0 0;"
+                                      StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane>
+                        <!-- Password Strength bars -->
+                        <HBox spacing="4.0" style="-fx-padding: 3 0 0 0;" maxWidth="Infinity">
+                           <children>
+                              <Region fx:id="strengthBar1" prefHeight="4" HBox.hgrow="ALWAYS"
+                                      style="-fx-background-color: #1e293b; -fx-background-radius: 2;" />
+                              <Region fx:id="strengthBar2" prefHeight="4" HBox.hgrow="ALWAYS"
+                                      style="-fx-background-color: #1e293b; -fx-background-radius: 2;" />
+                              <Region fx:id="strengthBar3" prefHeight="4" HBox.hgrow="ALWAYS"
+                                      style="-fx-background-color: #1e293b; -fx-background-radius: 2;" />
+                              <Region fx:id="strengthBar4" prefHeight="4" HBox.hgrow="ALWAYS"
+                                      style="-fx-background-color: #1e293b; -fx-background-radius: 2;" />
+                           </children>
+                        </HBox>
+                        <Label fx:id="strengthLabel" text=""
+                               style="-fx-text-fill: #64748b; -fx-font-size: 10px;" />
+                     </children>
+                  </VBox>
+
+                  <!-- Confirm Password -->
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="Confirm Password *"
+                               style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
+                        <StackPane maxWidth="Infinity">
+                           <children>
+                              <PasswordField fx:id="confirmPasswordField"
+                                             promptText="Re-enter your password" prefHeight="40.0"
+                                             style="-fx-padding: 0 44 0 10;" />
+                              <TextField fx:id="confirmPasswordVisibleField"
+                                         promptText="Re-enter your password" prefHeight="40.0"
+                                         managed="false" visible="false"
+                                         style="-fx-padding: 0 44 0 10;" />
+                              <Button fx:id="toggleConfirmBtn" text="👁" onAction="#toggleConfirmVisibility"
+                                      style="-fx-background-color: transparent; -fx-text-fill: #64748b;
+                                             -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 0 12 0 0;"
+                                      StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane>
+                        <Label fx:id="passwordMatchLabel" text=""
+                               style="-fx-font-size: 10px; -fx-text-fill: #64748b;" />
+                     </children>
+                  </VBox>
+
+                  <!-- Register Button -->
+                  <Button onAction="#handleRegister" text="Create Account  →"
+                          maxWidth="Infinity" prefHeight="44.0"
+                          styleClass="btn-primary"
+                          style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+
+                  <!-- Back to Login -->
+                  <HBox alignment="CENTER" spacing="6.0">
+                     <children>
+                        <Label text="Already have an account?"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 12px;" />
+                        <Button onAction="#goToLogin" text="Sign In"
+                                style="-fx-background-color: transparent; -fx-text-fill: #38bdf8;
+                                       -fx-font-size: 12px; -fx-font-weight: bold;
+                                       -fx-cursor: hand; -fx-underline: true; -fx-padding: 0;" />
+                     </children>
+                  </HBox>
+
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+
+   </children>
+</HBox>

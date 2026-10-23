@@ -18,18 +18,21 @@
             <children>
                <Label text="Orders Pending Settlement" styleClass="form-title" />
                <TableView fx:id="unpaidOrdersTable" VBox.vgrow="ALWAYS">
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
                   <columns>
-                     <TableColumn fx:id="colOrderNumber" prefWidth="130.0" text="Order #" />
-                     <TableColumn fx:id="colTable" prefWidth="80.0" text="Table" />
-                     <TableColumn fx:id="colCustomer" prefWidth="130.0" text="Customer" />
-                     <TableColumn fx:id="colTotal" prefWidth="110.0" text="Due Amount (₹)" />
+                     <TableColumn fx:id="colOrderNumber" prefWidth="120.0" text="Order #" />
+                     <TableColumn fx:id="colTable" prefWidth="70.0" text="Table" />
+                     <TableColumn fx:id="colCustomer" prefWidth="120.0" text="Customer" />
+                     <TableColumn fx:id="colTotal" prefWidth="100.0" text="Due Amount (₹)" />
                   </columns>
                </TableView>
             </children>
          </VBox>
 
          <!-- Right: Polymorphic Payment Processing Form -->
-         <VBox prefWidth="420.0" spacing="12.0" styleClass="form-panel">
+         <VBox prefWidth="380.0" minWidth="340.0" maxWidth="400.0" spacing="10.0" styleClass="form-panel">
             <children>
                <Label text="Transaction Settlement" styleClass="form-title" />
 
@@ -44,7 +47,7 @@
                </VBox>
 
                <!-- Polymorphic Panel 1: CASH -->
-               <VBox fx:id="cashPanel" spacing="8.0">
+               <VBox fx:id="cashPanel" spacing="6.0">
                   <children>
                      <Label text="Cash Tendered (₹) *" styleClass="form-label" />
                      <TextField fx:id="cashTenderedField" promptText="Amount received" />
@@ -52,7 +55,7 @@
                </VBox>
 
                <!-- Polymorphic Panel 2: UPI -->
-               <VBox fx:id="upiPanel" spacing="8.0" visible="false" managed="false">
+               <VBox fx:id="upiPanel" spacing="6.0" visible="false" managed="false">
                   <children>
                      <Label text="Customer UPI VPA ID *" styleClass="form-label" />
                      <TextField fx:id="upiIdField" promptText="e.g. user@oksbi / name@paytm" />
@@ -62,7 +65,7 @@
                </VBox>
 
                <!-- Polymorphic Panel 3: CARD -->
-               <VBox fx:id="cardPanel" spacing="8.0" visible="false" managed="false">
+               <VBox fx:id="cardPanel" spacing="6.0" visible="false" managed="false">
                   <children>
                      <Label text="Card Last 4 Digits *" styleClass="form-label" />
                      <TextField fx:id="cardLastFourField" promptText="e.g. 4482" />
@@ -71,10 +74,10 @@
                   </children>
                </VBox>
 
-               <Button onAction="#handleProcessPayment" text="✅ Process &amp; Settle Payment" maxWidth="Infinity" prefHeight="40.0" styleClass="btn-success" />
+               <Button onAction="#handleProcessPayment" text="✅ Process &amp; Settle Payment" maxWidth="Infinity" prefHeight="38.0" styleClass="btn-success" />
 
                <Label text="Generated Transaction Receipt:" styleClass="form-label" />
-               <TextArea fx:id="receiptOutputArea" prefRowCount="7" editable="false" styleClass="bill-preview-box" />
+               <TextArea fx:id="receiptOutputArea" minHeight="100.0" prefRowCount="6" editable="false" styleClass="bill-preview-box" />
             </children>
          </VBox>
       </HBox>

@@ -134,4 +134,30 @@ public class SupplierController {
         addressField.clear();
         supplierTable.getSelectionModel().clearSelection();
     }
+
+    @FXML
+    public void handleImportDummyData() {
+        try {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            int count = dds.importDummySuppliers();
+            AlertUtil.showInfo("Suppliers Imported", "Successfully imported " + count + " dummy suppliers.");
+            loadSuppliers();
+        } catch (Exception e) {
+            AlertUtil.showError("Import Failed", e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleVacateData() {
+        boolean confirm = AlertUtil.showConfirmation(
+                "Vacate Suppliers",
+                "Are you sure you want to clear all suppliers? Suppliers will become vacant."
+        );
+        if (confirm) {
+            com.restaurant.service.DummyDataService dds = new com.restaurant.service.DummyDataService();
+            dds.vacateSuppliers();
+            clearForm();
+            loadSuppliers();
+        }
+    }
 }

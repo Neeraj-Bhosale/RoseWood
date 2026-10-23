@@ -20,7 +20,7 @@
 
       <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
          <content>
-            <VBox spacing="20.0" style="-fx-background-color: transparent; -fx-padding: 0 10px 20px 0;">
+            <VBox spacing="18.0" style="-fx-background-color: transparent; -fx-padding: 0 4px 20px 0;">
                <children>
                   <HBox spacing="15.0">
                      <children>
@@ -28,7 +28,7 @@
                         <VBox styleClass="form-panel" HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Sales Revenue by Cuisine / Category" styleClass="form-title" />
-                              <BarChart fx:id="categorySalesBarChart" legendVisible="false" prefHeight="280.0">
+                              <BarChart fx:id="categorySalesBarChart" legendVisible="false" prefHeight="260.0">
                                  <xAxis>
                                     <CategoryAxis label="Menu Category" />
                                  </xAxis>
@@ -40,10 +40,10 @@
                         </VBox>
 
                         <!-- Chart 2: Payment Channel Breakdown -->
-                        <VBox styleClass="form-panel" prefWidth="380.0">
+                        <VBox styleClass="form-panel" prefWidth="350.0" minWidth="320.0" maxWidth="380.0">
                            <children>
                               <Label text="Payment Method Distribution" styleClass="form-title" />
-                              <PieChart fx:id="paymentMethodsPieChart" prefHeight="280.0" />
+                              <PieChart fx:id="paymentMethodsPieChart" prefHeight="260.0" />
                            </children>
                         </VBox>
                      </children>
@@ -53,7 +53,7 @@
                   <VBox styleClass="form-panel">
                      <children>
                         <Label text="Top 5 Best-Selling Dishes (Volume)" styleClass="form-title" />
-                        <BarChart fx:id="topItemsBarChart" legendVisible="false" prefHeight="240.0">
+                        <BarChart fx:id="topItemsBarChart" legendVisible="false" prefHeight="230.0">
                            <xAxis>
                               <CategoryAxis label="Dish Name" />
                            </xAxis>
