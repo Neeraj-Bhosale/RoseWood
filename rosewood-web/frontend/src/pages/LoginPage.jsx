@@ -20,7 +20,8 @@ export default function LoginPage() {
       toast.success(`Welcome back, ${fullName}!`);
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Login failed');
+      console.error('Login error:', err);
+      toast.error(err.response?.data?.error || err.message || 'Login failed');
     } finally {
       setLoading(false);
     }
