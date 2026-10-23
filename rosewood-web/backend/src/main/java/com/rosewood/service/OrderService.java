@@ -3,6 +3,7 @@ package com.rosewood.service;
 import com.rosewood.dto.CreateOrderRequest;
 import com.rosewood.model.*;
 import com.rosewood.repository.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
@@ -21,15 +22,18 @@ public class OrderService {
     private final MenuItemRepository menuItemRepository;
     private final InventoryRepository inventoryRepository;
     private final TableRepository tableRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     public OrderService(OrderRepository orderRepository,
                         MenuItemRepository menuItemRepository,
                         InventoryRepository inventoryRepository,
-                        TableRepository tableRepository) {
+                        TableRepository tableRepository,
+                        JdbcTemplate jdbcTemplate) {
         this.orderRepository = orderRepository;
         this.menuItemRepository = menuItemRepository;
         this.inventoryRepository = inventoryRepository;
         this.tableRepository = tableRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Order> getAllOrders() {
@@ -150,13 +154,27 @@ public class OrderService {
     private void deductInventoryForOrder(String orderNumber, List<CreateOrderRequest.OrderItemRequest> items) {
         // Aggregate required quantities per inventory item
         Map<Integer, BigDecimal> required = new HashMap<>();
-        Map<Integer, String> ingredientNames = new HashMap<>();
 
         for (CreateOrderRequest.OrderItemRequest item : items) {
-            // Load recipe for this menu item from menu_item_ingredients table
-            List<Object[]> recipe = inventoryRepository.getEntityManager() == null
-                    ? Collections.emptyList()
-                    : Collections.emptyList(); // Will use native query below
+            if (item.getItemId() == null) continue;
+            int orderQty = item.getQuantity() != null ? item.getQuantity() : 1;
+
+            try {
+                List<Map<String, Object>> recipes = jdbcTemplate.queryForList(
+                        "SELECT inventory_id, quantity_required FROM menu_item_ingredients WHERE menu_item_id = ?",
+                        item.getItemId());
+                for (Map<String, Object> r : recipes) {
+                    Number invIdNum = (Number) r.get("inventory_id");
+                    Number qtyNum = (Number) r.get("quantity_required");
+                    if (invIdNum != null && qtyNum != null) {
+                        int invId = invIdNum.intValue();
+                        BigDecimal needed = BigDecimal.valueOf(qtyNum.doubleValue()).multiply(BigDecimal.valueOf(orderQty));
+                        required.merge(invId, needed, BigDecimal::add);
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.warning("Could not load recipe for menu item " + item.getItemId() + ": " + e.getMessage());
+            }
         }
 
         if (required.isEmpty()) return;
