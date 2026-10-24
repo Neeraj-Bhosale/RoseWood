@@ -138,6 +138,34 @@ export default function LoginPage() {
                 }}>
                 🍽️ Waiter
               </button>
+              <button
+                type="button"
+                onClick={() => fillCredentials('cashier1', 'cashier123')}
+                style={{
+                  background: 'rgba(236, 72, 153, 0.15)',
+                  border: '1px solid rgba(236, 72, 153, 0.35)',
+                  color: '#f472b6',
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  cursor: 'pointer'
+                }}>
+                💳 Cashier
+              </button>
+              <button
+                type="button"
+                onClick={() => fillCredentials('chef1', 'kitchen123')}
+                style={{
+                  background: 'rgba(168, 85, 247, 0.15)',
+                  border: '1px solid rgba(168, 85, 247, 0.35)',
+                  color: '#c084fc',
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  cursor: 'pointer'
+                }}>
+                👨‍🍳 Kitchen
+              </button>
             </div>
           </div>
 

@@ -8,16 +8,16 @@ import {
 } from 'lucide-react';
 
 const NAV = [
-  { path: '/',           label: 'Dashboard',   icon: LayoutDashboard },
-  { path: '/orders',     label: 'Orders',      icon: ShoppingCart },
-  { path: '/menu',       label: 'Menu',        icon: UtensilsCrossed },
-  { path: '/inventory',  label: 'Inventory',   icon: Package },
-  { path: '/suppliers',  label: 'Suppliers',   icon: Truck },
-  { path: '/customers',  label: 'Customers',   icon: Users },
-  { path: '/tables',     label: 'Tables',      icon: TableProperties },
-  { path: '/kitchen',    label: 'Kitchen',     icon: ChefHat },
-  { path: '/billing',    label: 'Billing',     icon: CreditCard },
-  { path: '/reports',    label: 'Reports',     icon: BarChart2 },
+  { path: '/',           label: 'Dashboard',   icon: LayoutDashboard, roles: ['ADMIN', 'MANAGER', 'WAITER', 'CASHIER'] },
+  { path: '/orders',     label: 'Orders',      icon: ShoppingCart,    roles: ['ADMIN', 'MANAGER', 'WAITER', 'CASHIER', 'KITCHEN_STAFF'] },
+  { path: '/menu',       label: 'Menu',        icon: UtensilsCrossed, roles: ['ADMIN', 'MANAGER', 'WAITER'] },
+  { path: '/tables',     label: 'Tables',      icon: TableProperties, roles: ['ADMIN', 'MANAGER', 'WAITER'] },
+  { path: '/kitchen',    label: 'Kitchen',     icon: ChefHat,         roles: ['ADMIN', 'MANAGER', 'KITCHEN_STAFF'] },
+  { path: '/billing',    label: 'Billing',     icon: CreditCard,      roles: ['ADMIN', 'MANAGER', 'CASHIER'] },
+  { path: '/customers',  label: 'Customers',   icon: Users,           roles: ['ADMIN', 'MANAGER', 'WAITER', 'CASHIER'] },
+  { path: '/inventory',  label: 'Inventory',   icon: Package,         roles: ['ADMIN', 'MANAGER'] },
+  { path: '/suppliers',  label: 'Suppliers',   icon: Truck,           roles: ['ADMIN', 'MANAGER'] },
+  { path: '/reports',    label: 'Reports',     icon: BarChart2,       roles: ['ADMIN', 'MANAGER', 'CASHIER'] },
 ];
 
 export default function Sidebar() {
@@ -31,6 +31,9 @@ export default function Sidebar() {
     navigate('/login');
   };
 
+  const userRole = user?.role || 'WAITER';
+  const visibleNav = NAV.filter(item => !item.roles || item.roles.includes(userRole));
+
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -42,7 +45,7 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        {NAV.map(({ path, label, icon: Icon }) => (
+        {visibleNav.map(({ path, label, icon: Icon }) => (
           <Link
             key={path}
             to={path}

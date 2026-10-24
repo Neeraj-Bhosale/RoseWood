@@ -16,6 +16,18 @@ import KitchenPage from './pages/KitchenPage';
 import BillingPage from './pages/BillingPage';
 import ReportsPage from './pages/ReportsPage';
 
+import { useAuth } from './context/AuthContext';
+
+function RoleRoute({ roles, children }) {
+  const { user } = useAuth();
+  const role = user?.role || 'WAITER';
+  if (roles && !roles.includes(role)) {
+    const fallback = role === 'KITCHEN_STAFF' ? '/kitchen' : (role === 'WAITER' ? '/orders' : '/');
+    return <Navigate to={fallback} replace />;
+  }
+  return children;
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -27,16 +39,16 @@ export default function App() {
           <Route path="/login"    element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route element={<Layout />}>
-            <Route path="/"          element={<DashboardPage />} />
-            <Route path="/orders"    element={<OrdersPage />} />
-            <Route path="/menu"      element={<MenuPage />} />
-            <Route path="/inventory" element={<InventoryPage />} />
-            <Route path="/suppliers" element={<SuppliersPage />} />
-            <Route path="/customers" element={<CustomersPage />} />
-            <Route path="/tables"    element={<TablesPage />} />
-            <Route path="/kitchen"   element={<KitchenPage />} />
-            <Route path="/billing"   element={<BillingPage />} />
-            <Route path="/reports"   element={<ReportsPage />} />
+            <Route path="/"          element={<RoleRoute roles={['ADMIN', 'MANAGER', 'WAITER', 'CASHIER']}><DashboardPage /></RoleRoute>} />
+            <Route path="/orders"    element={<RoleRoute roles={['ADMIN', 'MANAGER', 'WAITER', 'CASHIER', 'KITCHEN_STAFF']}><OrdersPage /></RoleRoute>} />
+            <Route path="/menu"      element={<RoleRoute roles={['ADMIN', 'MANAGER', 'WAITER']}><MenuPage /></RoleRoute>} />
+            <Route path="/inventory" element={<RoleRoute roles={['ADMIN', 'MANAGER']}><InventoryPage /></RoleRoute>} />
+            <Route path="/suppliers" element={<RoleRoute roles={['ADMIN', 'MANAGER']}><SuppliersPage /></RoleRoute>} />
+            <Route path="/customers" element={<RoleRoute roles={['ADMIN', 'MANAGER', 'WAITER', 'CASHIER']}><CustomersPage /></RoleRoute>} />
+            <Route path="/tables"    element={<RoleRoute roles={['ADMIN', 'MANAGER', 'WAITER']}><TablesPage /></RoleRoute>} />
+            <Route path="/kitchen"   element={<RoleRoute roles={['ADMIN', 'MANAGER', 'KITCHEN_STAFF']}><KitchenPage /></RoleRoute>} />
+            <Route path="/billing"   element={<RoleRoute roles={['ADMIN', 'MANAGER', 'CASHIER']}><BillingPage /></RoleRoute>} />
+            <Route path="/reports"   element={<RoleRoute roles={['ADMIN', 'MANAGER', 'CASHIER']}><ReportsPage /></RoleRoute>} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
