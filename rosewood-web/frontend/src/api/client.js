@@ -1,11 +1,20 @@
 import axios from 'axios';
 
-const DEFAULT_PROD_API = 'https://rosewood-api.onrender.com';
-const envApi = import.meta.env.VITE_API_URL;
-const rawApiBase = (envApi && !envApi.includes('your-backend.railway.app'))
-  ? envApi
-  : (import.meta.env.PROD ? DEFAULT_PROD_API : 'http://localhost:8080');
+// Always point to the real Render backend in production.
+// VITE_API_URL must be set in Vercel Dashboard → Settings → Environment Variables.
+// The fallback hardcodes the Render URL so the app never breaks even without the env var.
+const PROD_API = 'https://rosewood-api.onrender.com';
+const envApi = import.meta.env.VITE_API_URL || '';
+const isPlaceholder = !envApi || envApi.includes('your-backend') || envApi.includes('localhost');
+const rawApiBase = import.meta.env.PROD
+  ? (isPlaceholder ? PROD_API : envApi)
+  : (envApi && !isPlaceholder ? envApi : 'http://localhost:8080');
 const API_BASE = rawApiBase.replace(/\/+$/, '');
+
+// Log the API base in dev to help debug
+if (import.meta.env.DEV) {
+  console.info('[RoseWood] API_BASE =', API_BASE);
+}
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -24,13 +33,16 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response?.status === 401) {
+    const isAuthRequest = error.config?.url?.includes('/api/auth/');
+    if (error.response?.status === 401 && !isAuthRequest) {
       localStorage.removeItem('rw_token');
       localStorage.removeItem('rw_user');
-      window.location.href = '/login';
+      if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+        window.location.href = '/login';
+      }
     }
     if (!error.response) {
-      error.message = `Backend server (${API_BASE}) is starting up or unreachable. Render free instances spin down after inactivity and can take ~50 seconds to wake up. Please wait a moment and try again!`;
+      error.message = `Backend server (${API_BASE}) is waking up or unreachable. Render instances spin down after inactivity and take ~40 seconds to wake up. Please wait a moment and try again!`;
     }
     return Promise.reject(error);
   }
