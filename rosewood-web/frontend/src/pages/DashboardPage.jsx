@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { orderApi, inventoryApi, customerApi, menuApi } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
-import { ShoppingCart, Package, Users, UtensilsCrossed, TrendingUp, AlertTriangle } from 'lucide-react';
+import { ShoppingCart, Package, Users, UtensilsCrossed, TrendingUp, AlertTriangle, RefreshCw } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const COLORS = ['#c084fc', '#818cf8', '#34d399', '#fb923c', '#f472b6'];
 
@@ -15,20 +16,65 @@ export default function DashboardPage() {
   const [customerCount, setCustomerCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    Promise.all([
+  const loadData = () => {
+    setLoading(true);
+    Promise.allSettled([
       orderApi.getDashboardStats(),
       orderApi.getAll(),
       inventoryApi.getLowStock(),
       menuApi.getItems(),
       customerApi.getAll(),
     ]).then(([statsRes, ordersRes, lowStockRes, menuRes, custRes]) => {
-      setStats(statsRes.data);
-      setOrders(ordersRes.data.slice(0, 6));
-      setLowStock(lowStockRes.data.slice(0, 5));
-      setMenuCount(menuRes.data.length);
-      setCustomerCount(custRes.data.length);
-    }).catch(console.error).finally(() => setLoading(false));
+      let anySuccess = false;
+      let firstError = null;
+
+      if (statsRes.status === 'fulfilled') {
+        setStats(statsRes.value.data);
+        anySuccess = true;
+      } else {
+        firstError = statsRes.reason;
+      }
+
+      if (ordersRes.status === 'fulfilled') {
+        setOrders(ordersRes.value.data.slice(0, 6));
+        anySuccess = true;
+      } else {
+        firstError = firstError || ordersRes.reason;
+      }
+
+      if (lowStockRes.status === 'fulfilled') {
+        setLowStock(lowStockRes.value.data.slice(0, 5));
+        anySuccess = true;
+      } else {
+        firstError = firstError || lowStockRes.reason;
+      }
+
+      if (menuRes.status === 'fulfilled') {
+        setMenuCount(menuRes.value.data.length);
+        anySuccess = true;
+      } else {
+        firstError = firstError || menuRes.reason;
+      }
+
+      if (custRes.status === 'fulfilled') {
+        setCustomerCount(custRes.value.data.length);
+        anySuccess = true;
+      } else {
+        firstError = firstError || custRes.reason;
+      }
+
+      if (!anySuccess && firstError) {
+        console.error('All dashboard endpoints failed:', firstError);
+        toast.error(firstError.response?.data?.error || firstError.message || 'Failed to load dashboard data');
+      }
+    }).catch(err => {
+      console.error('Dashboard load error:', err);
+      toast.error(err.message || 'Error loading dashboard');
+    }).finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   // Build chart data from recent orders
@@ -51,7 +97,12 @@ export default function DashboardPage() {
           <h1>Dashboard</h1>
           <p>Welcome back, <strong>{user?.fullName}</strong> 👋</p>
         </div>
-        <div className="badge-role">{user?.role?.replace('_', ' ')}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button className="btn-ghost" onClick={loadData} title="Refresh Dashboard" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <RefreshCw size={14} /> Refresh
+          </button>
+          <div className="badge-role">{user?.role?.replace('_', ' ')}</div>
+        </div>
       </div>
 
       {/* Stat Cards */}

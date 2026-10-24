@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { menuApi } from '../api/client';
 import toast from 'react-hot-toast';
-import { Plus, Pencil, Trash2, X, Search } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, Search, RefreshCw } from 'lucide-react';
 
 const EMPTY = { name: '', description: '', price: '', preparationTime: 15, categoryId: '', available: true };
 
@@ -15,9 +15,34 @@ export default function MenuPage() {
   const [filterCat, setFilterCat] = useState('');
 
   const load = () => {
-    Promise.all([menuApi.getItems(), menuApi.getCategories()])
-      .then(([itemsRes, catsRes]) => { setItems(itemsRes.data); setCategories(catsRes.data); })
-      .catch(console.error).finally(() => setLoading(false));
+    setLoading(true);
+    Promise.allSettled([menuApi.getItems(), menuApi.getCategories()])
+      .then(([itemsRes, catsRes]) => {
+        let anyLoaded = false;
+        if (itemsRes.status === 'fulfilled') {
+          setItems(itemsRes.value.data || []);
+          anyLoaded = true;
+        } else {
+          console.error('Menu items failed:', itemsRes.reason);
+        }
+
+        if (catsRes.status === 'fulfilled') {
+          setCategories(catsRes.value.data || []);
+          anyLoaded = true;
+        } else {
+          console.error('Menu categories failed:', catsRes.reason);
+        }
+
+        if (!anyLoaded) {
+          const err = itemsRes.reason || catsRes.reason;
+          toast.error(err?.response?.data?.error || err?.message || 'Failed to load menu items');
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        toast.error(err.message || 'Error loading menu');
+      })
+      .finally(() => setLoading(false));
   };
   useEffect(load, []);
 
@@ -50,7 +75,12 @@ export default function MenuPage() {
     <div className="page">
       <div className="page-header">
         <div><h1>Menu</h1><p>{items.length} items across {categories.length} categories</p></div>
-        <button id="add-menu-btn" className="btn-primary" onClick={openAdd}><Plus size={16} /> Add Item</button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button className="btn-ghost" onClick={load} title="Refresh Menu" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <RefreshCw size={14} /> Refresh
+          </button>
+          <button id="add-menu-btn" className="btn-primary" onClick={openAdd}><Plus size={16} /> Add Item</button>
+        </div>
       </div>
 
       <div className="toolbar">

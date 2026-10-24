@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/menu")
@@ -25,17 +26,26 @@ public class MenuController {
     @GetMapping("/items")
     public List<MenuItem> getAllItems() {
         List<MenuItem> items = menuItemRepository.findAll();
-        // Populate category names
-        items.forEach(item -> menuCategoryRepository.findById(item.getCategoryId())
-                .ifPresent(cat -> item.setCategoryName(cat.getName())));
+        Map<Integer, String> categoryMap = menuCategoryRepository.findAll().stream()
+                .collect(Collectors.toMap(MenuCategory::getCategoryId, MenuCategory::getName, (a, b) -> a));
+        items.forEach(item -> {
+            if (item.getCategoryId() != null) {
+                item.setCategoryName(categoryMap.get(item.getCategoryId()));
+            }
+        });
         return items;
     }
 
     @GetMapping("/items/available")
     public List<MenuItem> getAvailableItems() {
         List<MenuItem> items = menuItemRepository.findByAvailableTrue();
-        items.forEach(item -> menuCategoryRepository.findById(item.getCategoryId())
-                .ifPresent(cat -> item.setCategoryName(cat.getName())));
+        Map<Integer, String> categoryMap = menuCategoryRepository.findAll().stream()
+                .collect(Collectors.toMap(MenuCategory::getCategoryId, MenuCategory::getName, (a, b) -> a));
+        items.forEach(item -> {
+            if (item.getCategoryId() != null) {
+                item.setCategoryName(categoryMap.get(item.getCategoryId()));
+            }
+        });
         return items;
     }
 

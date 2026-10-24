@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const rawApiBase = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const DEFAULT_PROD_API = 'https://rosewood-api.onrender.com';
+const envApi = import.meta.env.VITE_API_URL;
+const rawApiBase = (envApi && !envApi.includes('your-backend.railway.app'))
+  ? envApi
+  : (import.meta.env.PROD ? DEFAULT_PROD_API : 'http://localhost:8080');
 const API_BASE = rawApiBase.replace(/\/+$/, '');
 
 const api = axios.create({

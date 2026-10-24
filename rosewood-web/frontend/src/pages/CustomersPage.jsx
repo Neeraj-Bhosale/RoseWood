@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { customerApi } from '../api/client';
 import toast from 'react-hot-toast';
-import { Plus, Pencil, Trash2, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, RefreshCw } from 'lucide-react';
 
 const EMPTY = { name: '', phone: '', email: '', address: '' };
 
@@ -12,7 +12,16 @@ export default function CustomersPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
-  const load = () => customerApi.getAll().then(r => setCustomers(r.data)).catch(console.error).finally(() => setLoading(false));
+  const load = () => {
+    setLoading(true);
+    customerApi.getAll()
+      .then(r => setCustomers(r.data || []))
+      .catch(err => {
+        console.error('Customers load error:', err);
+        toast.error(err.response?.data?.error || err.message || 'Failed to load customers');
+      })
+      .finally(() => setLoading(false));
+  };
   useEffect(load, []);
 
   const openAdd = () => { setForm(EMPTY); setModal({ mode: 'add' }); };
@@ -44,7 +53,12 @@ export default function CustomersPage() {
     <div className="page">
       <div className="page-header">
         <div><h1>Customers</h1><p>{customers.length} registered customers</p></div>
-        <button id="add-customer-btn" className="btn-primary" onClick={openAdd}><Plus size={16} /> Add Customer</button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button className="btn-ghost" onClick={load} title="Refresh Customers" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <RefreshCw size={14} /> Refresh
+          </button>
+          <button id="add-customer-btn" className="btn-primary" onClick={openAdd}><Plus size={16} /> Add Customer</button>
+        </div>
       </div>
 
       <div className="toolbar">
