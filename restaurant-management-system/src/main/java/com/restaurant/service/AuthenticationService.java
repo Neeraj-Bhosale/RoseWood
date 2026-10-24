@@ -44,11 +44,11 @@ public class AuthenticationService {
             throw new InvalidLoginException("Username and password must not be empty.");
         }
 
-        // Find the user in the database using the username.
-        User user = userRepository.findByUsername(username.trim());
+        // Find the user in the database using username or email.
+        User user = userRepository.findByUsernameOrEmail(username.trim());
         if (user == null) {
-            LOGGER.warning("Authentication failed: User not found for username '" + username + "'");
-            throw new InvalidLoginException("Invalid username or password.");
+            LOGGER.warning("Authentication failed: User not found for username/email '" + username + "'");
+            throw new InvalidLoginException("Invalid username/email or password.");
         }
 
         // Verify the plain-text password against the stored hash and salt.

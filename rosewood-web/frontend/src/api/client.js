@@ -5,6 +5,7 @@ const API_BASE = rawApiBase.replace(/\/+$/, '');
 
 const api = axios.create({
   baseURL: API_BASE,
+  timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -15,7 +16,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle 401 — redirect to login
+// Handle errors gracefully
 api.interceptors.response.use(
   (res) => res,
   (error) => {
@@ -23,6 +24,9 @@ api.interceptors.response.use(
       localStorage.removeItem('rw_token');
       localStorage.removeItem('rw_user');
       window.location.href = '/login';
+    }
+    if (!error.response) {
+      error.message = `Backend server unreachable (${API_BASE}). Check your VITE_API_URL and server status.`;
     }
     return Promise.reject(error);
   }

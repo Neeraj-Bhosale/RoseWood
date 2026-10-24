@@ -53,7 +53,7 @@ public class AppConfig {
 
     // This method stores default values in case the file is missing or broken.
     private void setDefaultValues() {
-        properties.setProperty("db.url", "jdbc:mysql://localhost:3306/restaurant_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
+        properties.setProperty("db.url", "jdbc:mysql://localhost:3306/restaurant_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=5000&socketTimeout=10000");
         properties.setProperty("db.username", "root");
         properties.setProperty("db.password", "Pune411019");
         properties.setProperty("db.driver", "com.mysql.cj.jdbc.Driver");

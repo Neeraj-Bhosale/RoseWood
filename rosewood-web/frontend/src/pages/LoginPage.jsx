@@ -40,11 +40,11 @@ export default function LoginPage() {
           <h2>Sign In</h2>
 
           <div className="form-group">
-            <label>Username</label>
+            <label>Username or Email</label>
             <input
               id="login-username"
               type="text"
-              placeholder="Enter username"
+              placeholder="Enter username or email"
               value={form.username}
               onChange={e => setForm({ ...form, username: e.target.value })}
               required

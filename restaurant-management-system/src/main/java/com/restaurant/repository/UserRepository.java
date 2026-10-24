@@ -28,6 +28,23 @@ public class UserRepository {
         return null;
     }
 
+    public User findByUsernameOrEmail(String identifier) {
+        String sql = "SELECT * FROM users WHERE (username = ? OR email = ?) AND is_active = TRUE";
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, identifier);
+            stmt.setString(2, identifier);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToUser(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Error fetching user by username/email: " + identifier, e);
+        }
+        return null;
+    }
+
     public User findById(int userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         try (Connection conn = dbConfig.getConnection();

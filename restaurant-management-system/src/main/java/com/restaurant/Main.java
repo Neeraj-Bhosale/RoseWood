@@ -96,9 +96,22 @@ public class Main extends Application {
      * Load and display the login screen at standard 900x600 resolution.
      */
     public static void loadLoginScreen() {
+        loadLoginScreen(null);
+    }
+
+    /**
+     * Load and display the login screen with an optional prefilled username.
+     */
+    public static void loadLoginScreen(String prefillUsername) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/fxml/login.fxml"));
             Parent root = loader.load();
+            if (prefillUsername != null && !prefillUsername.isBlank()) {
+                com.restaurant.controller.LoginController controller = loader.getController();
+                if (controller != null) {
+                    controller.setPreFilledUsername(prefillUsername);
+                }
+            }
             Scene scene = new Scene(root, 900, 600);
             scene.getStylesheets().add(
                     Main.class.getResource("/css/application.css").toExternalForm());
@@ -110,6 +123,7 @@ public class Main extends Application {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to load login screen", e);
             ActivityLogger.getInstance().logError("loadLoginScreen", e.getMessage());
+            com.restaurant.util.AlertUtil.showError("System Error", "Failed to load login screen: " + e.getMessage());
         }
     }
 
@@ -131,6 +145,7 @@ public class Main extends Application {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to load register screen", e);
             ActivityLogger.getInstance().logError("loadRegisterScreen", e.getMessage());
+            com.restaurant.util.AlertUtil.showError("System Error", "Failed to load register screen: " + e.getMessage());
         }
     }
 
@@ -152,6 +167,7 @@ public class Main extends Application {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to load dashboard screen", e);
             ActivityLogger.getInstance().logError("loadMainDashboard", e.getMessage());
+            com.restaurant.util.AlertUtil.showError("System Error", "Failed to load dashboard: " + e.getMessage());
         }
     }
 

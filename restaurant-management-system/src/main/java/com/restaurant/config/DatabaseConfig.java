@@ -28,6 +28,7 @@ public class DatabaseConfig {
 
         try {
             Class.forName(driver);
+            DriverManager.setLoginTimeout(5);
             LOGGER.info("MySQL JDBC Driver registered successfully.");
         } catch (ClassNotFoundException e) {
             LOGGER.log(Level.SEVERE, "MySQL JDBC Driver not found in classpath!", e);

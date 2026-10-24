@@ -41,6 +41,20 @@ public class LoginController {
     }
 
     /**
+     * Pre-fills username field (e.g. after successful registration) and sets focus.
+     */
+    public void setPreFilledUsername(String username) {
+        if (usernameField != null && username != null) {
+            usernameField.setText(username);
+            javafx.application.Platform.runLater(() -> {
+                if (passwordField != null) {
+                    passwordField.requestFocus();
+                }
+            });
+        }
+    }
+
+    /**
      * Toggle the password field between masked and unmasked display.
      */
     @FXML
@@ -53,12 +67,16 @@ public class LoginController {
                 passwordVisibleField.setVisible(true);
                 passwordField.setManaged(false);
                 passwordField.setVisible(false);
+                passwordVisibleField.requestFocus();
+                passwordVisibleField.positionCaret(passwordVisibleField.getText().length());
             } else {
                 // Show dots
                 passwordField.setManaged(true);
                 passwordField.setVisible(true);
                 passwordVisibleField.setManaged(false);
                 passwordVisibleField.setVisible(false);
+                passwordField.requestFocus();
+                passwordField.positionCaret(passwordField.getText().length());
             }
         }
     }
@@ -68,14 +86,14 @@ public class LoginController {
      */
     @FXML
     public void handleLogin() {
-        String username = usernameField.getText().trim();
-        String password = passwordField.getText();
+        String username = usernameField != null ? usernameField.getText().trim() : "";
+        String password = passwordField != null ? passwordField.getText() : "";
 
         // Clear prior error
         showError("");
 
         if (username.isEmpty() || password.isEmpty()) {
-            showError("Please enter both username and password.");
+            showError("Please enter both username/email and password.");
             return;
         }
 
@@ -87,7 +105,7 @@ public class LoginController {
         } catch (InvalidLoginException e) {
             showError(e.getMessage());
         } catch (Exception e) {
-            AlertUtil.showError("System Error", "Database or connection error: " + e.getMessage());
+            AlertUtil.showError("Sign In Error", "Database or connection error: " + e.getMessage());
         }
     }
 

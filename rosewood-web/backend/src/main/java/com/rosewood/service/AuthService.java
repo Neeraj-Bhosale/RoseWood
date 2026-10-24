@@ -24,7 +24,8 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public AuthResponse login(LoginRequest req) {
-        User user = userRepository.findByUsername(req.getUsername().trim())
+        String identifier = req.getUsername().trim();
+        User user = userRepository.findByUsernameOrEmail(identifier, identifier)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
 
         if (!user.isActive()) {

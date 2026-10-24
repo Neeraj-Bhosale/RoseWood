@@ -156,10 +156,10 @@
             <!-- Username Field -->
             <VBox spacing="6.0" maxWidth="480.0">
                <children>
-                  <Label text="Username"
+                  <Label text="Username or Email"
                          style="-fx-text-fill: #94a3b8; -fx-font-size: 12px; -fx-font-weight: bold;" />
-                  <TextField fx:id="usernameField" promptText="Enter your username"
-                             prefHeight="42.0" maxWidth="Infinity" />
+                  <TextField fx:id="usernameField" promptText="Enter your username or email"
+                             prefHeight="42.0" maxWidth="Infinity" onAction="#handleLogin" />
                </children>
             </VBox>
 
@@ -174,7 +174,7 @@
                                        prefHeight="42.0" onAction="#handleLogin"
                                        style="-fx-font-size: 13px; -fx-padding: 0 44 0 10;" />
                         <TextField fx:id="passwordVisibleField" promptText="Enter your password"
-                                   prefHeight="42.0" managed="false" visible="false"
+                                   prefHeight="42.0" managed="false" visible="false" onAction="#handleLogin"
                                    style="-fx-font-size: 13px; -fx-padding: 0 44 0 10;" />
                         <Button fx:id="togglePasswordBtn" text="👁" onAction="#togglePasswordVisibility"
                                 style="-fx-background-color: transparent; -fx-text-fill: #64748b;

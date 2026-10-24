@@ -55,11 +55,14 @@ public class RegisterController {
     @FXML private Region strengthBar3;
     @FXML private Region strengthBar4;
 
-    // Status labels
+    // Status labels & containers
+    @FXML private ScrollPane registerScrollPane;
     @FXML private Label strengthLabel;
     @FXML private Label passwordMatchLabel;
     @FXML private Label errorLabel;
+    @FXML private Label bottomErrorLabel;
     @FXML private Label successLabel;
+    @FXML private Button registerButton;
 
     private boolean passwordVisible = false;
     private boolean confirmVisible = false;
@@ -230,14 +233,17 @@ public class RegisterController {
         // ---- Submit to service / database ----
         try {
             authService.registerUser(fullName, username, email, phone, password, role);
-            showSuccess("✓ Account created successfully! You can now sign in with your credentials.");
+            AlertUtil.showInfo("Registration Successful",
+                    "✓ Account created successfully for " + fullName + " (" + role.name() + ")!\n\nClick OK to proceed to Sign In.");
             clearForm();
+            Main.loadLoginScreen(username);
         } catch (IllegalArgumentException e) {
             // Duplicate username/email, validation errors from service layer
             showError(e.getMessage());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Registration error", e);
             showError("Registration failed: " + e.getMessage());
+            AlertUtil.showError("Registration Failed", "Database connection or server error:\n" + e.getMessage());
         }
     }
 
@@ -275,6 +281,11 @@ public class RegisterController {
             errorLabel.setVisible(true);
             errorLabel.setManaged(true);
         }
+        if (bottomErrorLabel != null) {
+            bottomErrorLabel.setText(message);
+            bottomErrorLabel.setVisible(true);
+            bottomErrorLabel.setManaged(true);
+        }
         if (successLabel != null) {
             successLabel.setVisible(false);
             successLabel.setManaged(false);
@@ -291,10 +302,15 @@ public class RegisterController {
             errorLabel.setVisible(false);
             errorLabel.setManaged(false);
         }
+        if (bottomErrorLabel != null) {
+            bottomErrorLabel.setVisible(false);
+            bottomErrorLabel.setManaged(false);
+        }
     }
 
     private void clearMessages() {
         if (errorLabel != null) { errorLabel.setVisible(false); errorLabel.setManaged(false); }
+        if (bottomErrorLabel != null) { bottomErrorLabel.setVisible(false); bottomErrorLabel.setManaged(false); }
         if (successLabel != null) { successLabel.setVisible(false); successLabel.setManaged(false); }
     }
 

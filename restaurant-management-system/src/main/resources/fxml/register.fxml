@@ -107,7 +107,7 @@
       </VBox>
 
       <!-- ===== Right Registration Form — grows to fill remaining width ===== -->
-      <ScrollPane fitToWidth="true" HBox.hgrow="ALWAYS" maxHeight="Infinity"
+      <ScrollPane fx:id="registerScrollPane" fitToWidth="true" HBox.hgrow="ALWAYS" maxHeight="Infinity"
                   style="-fx-background-color: #0f172a; -fx-border-width: 0; -fx-background: #0f172a;">
          <content>
             <VBox alignment="TOP_LEFT" spacing="16.0" maxWidth="Infinity"
@@ -144,7 +144,7 @@
                         <Label text="Full Name *"
                                style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
                         <TextField fx:id="fullNameField" promptText="e.g. Rahul Sharma"
-                                   prefHeight="40.0" maxWidth="Infinity" />
+                                   prefHeight="40.0" maxWidth="Infinity" onAction="#handleRegister" />
                      </children>
                   </VBox>
 
@@ -156,7 +156,7 @@
                               <Label text="Username *"
                                      style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
                               <TextField fx:id="usernameField" promptText="e.g. rahul_sharma"
-                                         prefHeight="40.0" maxWidth="Infinity" />
+                                         prefHeight="40.0" maxWidth="Infinity" onAction="#handleRegister" />
                            </children>
                         </VBox>
                         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
@@ -164,7 +164,7 @@
                               <Label text="Email Address *"
                                      style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
                               <TextField fx:id="emailField" promptText="e.g. rahul@rosewood.com"
-                                         prefHeight="40.0" maxWidth="Infinity" />
+                                         prefHeight="40.0" maxWidth="Infinity" onAction="#handleRegister" />
                            </children>
                         </VBox>
                      </children>
@@ -178,7 +178,7 @@
                               <Label text="Phone Number *"
                                      style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" />
                               <TextField fx:id="phoneField" promptText="e.g. 9876543210"
-                                         prefHeight="40.0" maxWidth="Infinity" />
+                                         prefHeight="40.0" maxWidth="Infinity" onAction="#handleRegister" />
                            </children>
                         </VBox>
                         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
@@ -200,10 +200,10 @@
                         <StackPane maxWidth="Infinity">
                            <children>
                               <PasswordField fx:id="passwordField" promptText="Minimum 8 characters"
-                                             prefHeight="40.0"
+                                             prefHeight="40.0" onAction="#handleRegister"
                                              style="-fx-padding: 0 44 0 10;" />
                               <TextField fx:id="passwordVisibleField" promptText="Minimum 8 characters"
-                                         prefHeight="40.0" managed="false" visible="false"
+                                         prefHeight="40.0" managed="false" visible="false" onAction="#handleRegister"
                                          style="-fx-padding: 0 44 0 10;" />
                               <Button fx:id="togglePasswordBtn" text="👁" onAction="#togglePasswordVisibility"
                                       style="-fx-background-color: transparent; -fx-text-fill: #64748b;
@@ -237,10 +237,10 @@
                         <StackPane maxWidth="Infinity">
                            <children>
                               <PasswordField fx:id="confirmPasswordField"
-                                             promptText="Re-enter your password" prefHeight="40.0"
+                                             promptText="Re-enter your password" prefHeight="40.0" onAction="#handleRegister"
                                              style="-fx-padding: 0 44 0 10;" />
                               <TextField fx:id="confirmPasswordVisibleField"
-                                         promptText="Re-enter your password" prefHeight="40.0"
+                                         promptText="Re-enter your password" prefHeight="40.0" onAction="#handleRegister"
                                          managed="false" visible="false"
                                          style="-fx-padding: 0 44 0 10;" />
                               <Button fx:id="toggleConfirmBtn" text="👁" onAction="#toggleConfirmVisibility"
@@ -254,8 +254,16 @@
                      </children>
                   </VBox>
 
+                  <!-- Bottom Status Label (immediately visible right above button) -->
+                  <Label fx:id="bottomErrorLabel" wrapText="true" maxWidth="Infinity"
+                         managed="false" visible="false"
+                         style="-fx-text-fill: #ef4444; -fx-font-size: 12px; -fx-font-weight: bold;
+                                -fx-background-color: rgba(239,68,68,0.08); -fx-padding: 8 12;
+                                -fx-background-radius: 6; -fx-border-color: rgba(239,68,68,0.3);
+                                -fx-border-radius: 6;" />
+
                   <!-- Register Button -->
-                  <Button onAction="#handleRegister" text="Create Account  →"
+                  <Button fx:id="registerButton" onAction="#handleRegister" text="Create Account  →"
                           maxWidth="Infinity" prefHeight="44.0"
                           styleClass="btn-primary"
                           style="-fx-font-size: 14px; -fx-font-weight: bold;" />
