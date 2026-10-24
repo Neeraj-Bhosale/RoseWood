@@ -5,7 +5,7 @@ const API_BASE = rawApiBase.replace(/\/+$/, '');
 
 const api = axios.create({
   baseURL: API_BASE,
-  timeout: 10000,
+  timeout: 75000, // Render free tier cold start can take 50-70 seconds
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -26,7 +26,7 @@ api.interceptors.response.use(
       window.location.href = '/login';
     }
     if (!error.response) {
-      error.message = `Backend server unreachable (${API_BASE}). Check your VITE_API_URL and server status.`;
+      error.message = `Backend server (${API_BASE}) is starting up or unreachable. Render free instances spin down after inactivity and can take ~50 seconds to wake up. Please wait a moment and try again!`;
     }
     return Promise.reject(error);
   }
